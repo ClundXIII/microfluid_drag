@@ -1,0 +1,22 @@
+
+project(microfluid_drag)
+cmake_minimum_required(VERSION 2.8)
+
+# add header files of this module
+set(HEADERS
+    ${PROJECT_SOURCE_DIR}/src/define.h
+)
+
+# add source files of this module
+set(SOURCES
+    ${PROJECT_SOURCE_DIR}/src/main.cpp
+)
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -g3") # -fsanitize=address")
+
+SET(GCC_COVERAGE_LINK_FLAGS    "-pthread")
+
+SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")# -fsanitize=address -g")
+
+add_executable(microfluid_drag ${HEADERS} ${SOURCES})
+target_link_libraries(microfluid_drag vcore vesper-log)
