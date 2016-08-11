@@ -5,11 +5,13 @@ cmake_minimum_required(VERSION 2.8)
 # add header files of this module
 set(HEADERS
     ${PROJECT_SOURCE_DIR}/src/define.h
+    ${PROJECT_SOURCE_DIR}/src/cell.h
 )
 
 # add source files of this module
 set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/main.cpp
+    ${PROJECT_SOURCE_DIR}/src/cell.cpp
 )
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -g3") # -fsanitize=address")

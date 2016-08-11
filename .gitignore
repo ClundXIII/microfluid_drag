@@ -1,4 +1,10 @@
 literature/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+Microfluid_Drag.layout
+cmake_install.cmake
+microfluid_drag
 
 # Compiled Object files
 *.slo
