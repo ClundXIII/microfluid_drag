@@ -22,6 +22,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="src/cell.cpp">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/cell.h">
+			<Option virtualFolder="src/" />
+		</Unit>
 		<Unit filename="src/define.h">
 			<Option virtualFolder="src/" />
 		</Unit>

@@ -1,7 +1,12 @@
 #include "cell.h"
 
 cell::cell(){
-    //ctor
+    setActive(true);
+}
+
+void cell::draw(){
+
+
 }
 
 cell::~cell(){

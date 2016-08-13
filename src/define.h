@@ -1,7 +1,7 @@
-#ifndef DEFINE_H_INCLUDED
-#define DEFINE_H_INCLUDED
+#ifndef MD_DEFINE_H_INCLUDED
+#define MD_DEFINE_H_INCLUDED
 
-#define _USE_VEMC2 0
+#define _USE_VEMC2 1
 
 enum direction{
     _000 =  0,
@@ -11,7 +11,6 @@ enum direction{
     _0m0 =  4,
     _00p =  5,
     _00m =  6,
-
     //
     _pp0 =  7,
     _pm0 =  8,
@@ -30,4 +29,4 @@ enum direction{
 #define _size_D3Q6   7
 #define _size_D3Q18 19
 
-#endif // DEFINE_H_INCLUDED
+#endif // MD_DEFINE_H_INCLUDED

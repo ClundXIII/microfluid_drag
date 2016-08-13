@@ -14,8 +14,9 @@ int main(){
     #if ( _USE_VEMC2 == 1 )
         vemc2::universe u(-1);
         u.out << "Hi" << Vesper::LoggingTypes::eom;
-    #endif // _USE_VEMC2
+    #else
 
+    #endif // _USE_VEMC2
 
     std::cout << "exit(0);" << std::endl;
     return 0;
