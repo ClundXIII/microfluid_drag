@@ -18,9 +18,14 @@ class cell{
 
         virtual void draw();
 
+        int add_neighbour(direction where, cell *neighbour);
+
         virtual ~cell();
     protected:
     private:
+
+        bdt flow[DIRECTION_FLOW_SIZE];
+        cell **neighbour;
 };
 
 #endif // CELL_H

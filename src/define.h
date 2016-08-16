@@ -26,7 +26,19 @@ enum direction{
     _0mm = 18
 };
 
+enum direction_mode{
+    _D3Q6  = 1,
+    _D3Q18 = 2
+};
+
 #define _size_D3Q6   7
 #define _size_D3Q18 19
+
+///define which model to use:
+#define DIRECTION_FLOW_MODEL _D3Q18
+#define DIRECTION_FLOW_SIZE  _size_D3Q18
+
+///define which datatype to use:
+#define bdt double
 
 #endif // MD_DEFINE_H_INCLUDED
