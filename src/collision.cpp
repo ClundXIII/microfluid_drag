@@ -1,9 +1,12 @@
 #include "collision.h"
 
 #include "cell.h"
+#include "fluid_simulation.h"
+
+#include <iostream>
 
 #if ( _USE_VEMC2 == 1 )
-collision::collision(vemc2::universe *u) : effect(u){
+collision::collision(fluid_simulation *u) : effect(u){
 #else
 collision::collision(fluid_simulation *u){
 #endif
@@ -11,9 +14,11 @@ collision::collision(fluid_simulation *u){
 }
 
 void collision::tick(){
+    std::cout << "tick c" << std::endl;
 }
 
 void collision::upValues(){
+    std::cout << "up c" << std::endl;
 }
 
 void collision::setCellList(Cell **allCells){

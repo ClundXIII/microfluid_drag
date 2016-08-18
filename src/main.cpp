@@ -36,6 +36,10 @@ int main(int argc, const char* argv[]){
 
     out << "setting up cells ..." << out_endl;
     u->createCellGrid(10, 10, 10);
+    u->setupEffects();
+
+    u->unpause();
+    u->run(10);
 
     delete(u);
 

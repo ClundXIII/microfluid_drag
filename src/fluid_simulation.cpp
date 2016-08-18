@@ -49,15 +49,12 @@ void fluid_simulation::createCellGrid(unsigned size_x, unsigned size_y, unsigned
 
 void fluid_simulation::setupEffects(){
 
-    effectArray = new effect*[2];
+    effectArray = new effect*[3];
+    effectCount = 2;
 
-    #if ( _USE_VEMC2 == 1 )
-        effectArray[0] = new collision(this);
-        effectArray[1] = new flow(this);
-    #else
-        effectArray[0] = new collision();
-        effectArray[1] = new flow();
-    #endif
+    effectArray[0] = new collision(this);
+    effectArray[1] = new flow(this);
+    effectArray[2] = 0;
 
 }
 

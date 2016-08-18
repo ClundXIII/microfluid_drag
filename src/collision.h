@@ -8,6 +8,7 @@
 #endif // _USE_VEMC2
 
 class Cell;
+class fluid_simulation;
 
 #if ( _USE_VEMC2 == 1 )
 class collision : public vemc2::simulation::effect::effect{
@@ -16,12 +17,7 @@ class collision : public effect{
 #endif
     public:
 
-        #if ( _USE_VEMC2 == 1 )
-            collision(vemc2::universe *u);
-        #else
-            collision(fluid_simulation *u);
-        #endif
-
+        collision(fluid_simulation *u);
 
         void tick();
 

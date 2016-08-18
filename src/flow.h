@@ -8,6 +8,7 @@
 #endif // _USE_VEMC2
 
 class cell;
+class fluid_simulation;
 
 #if ( _USE_VEMC2 == 1 )
 class flow : public vemc2::simulation::effect::effect{
