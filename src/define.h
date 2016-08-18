@@ -31,6 +31,15 @@ enum direction_mode{
     _D3Q18 = 2
 };
 
+
+#if !( _USE_VEMC2 == 1 )
+    class effect{
+        virtual void tick() =0;
+
+        virtual void upValues() =0;
+    };
+#endif
+
 #define _size_D3Q6   7
 #define _size_D3Q18 19
 

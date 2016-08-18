@@ -10,7 +10,13 @@ flow::flow(){
     //ctor
 }
 
-void flow::setCellList(Cell **allCells){
+void flow::tick(){
+}
+
+void flow::upValues(){
+}
+
+void flow::setCellList(cell **allCells){
     this->allCells = allCells;
 }
 

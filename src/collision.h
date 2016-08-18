@@ -10,9 +10,9 @@
 class Cell;
 
 #if ( _USE_VEMC2 == 1 )
-class collision : vemc2::simulation::effect::effect{
+class collision : public vemc2::simulation::effect::effect{
 #else
-class collision{
+class collision : public effect{
 #endif
     public:
 
@@ -21,6 +21,11 @@ class collision{
         #else
             collision();
         #endif
+
+
+        void tick();
+
+        void upValues();
 
         void setCellList(Cell **allCells);
 

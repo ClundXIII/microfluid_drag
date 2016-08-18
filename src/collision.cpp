@@ -10,6 +10,12 @@ collision::collision(){
     //ctor
 }
 
+void collision::tick(){
+}
+
+void collision::upValues(){
+}
+
 void collision::setCellList(Cell **allCells){
     this->allCells = allCells;
 }

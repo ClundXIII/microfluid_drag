@@ -34,6 +34,9 @@ int main(int argc, const char* argv[]){
 
     fluid_simulation *u = new fluid_simulation();
 
+    out << "setting up cells ..." << out_endl;
+    u->createCellGrid(10, 10, 10);
+
     delete(u);
 
     out << "exit(0);" << out_endl;

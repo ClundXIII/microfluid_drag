@@ -7,12 +7,12 @@
 #include <vemc2/core/universe.h>
 #endif // _USE_VEMC2
 
-class Cell;
+class cell;
 
 #if ( _USE_VEMC2 == 1 )
-class flow : vemc2::simulation::effect::effect{
+class flow : public vemc2::simulation::effect::effect{
 #else
-class flow{
+class flow : public effect{
 #endif
     public:
         #if ( _USE_VEMC2 == 1 )
@@ -21,13 +21,17 @@ class flow{
             flow();
         #endif
 
-        void setCellList(Cell **allCells);
+        void tick();
+
+        void upValues();
+
+        void setCellList(cell **allCells);
 
         virtual ~flow();
     protected:
     private:
 
-        Cell **allCells;
+        cell **allCells;
 };
 
 #endif // FLOW_H

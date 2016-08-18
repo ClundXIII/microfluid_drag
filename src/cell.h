@@ -20,6 +20,8 @@ class cell{
 
         int add_neighbour(direction where, cell *neighbour);
 
+        unsigned pos_x, pos_y, pos_z;
+
         virtual ~cell();
     protected:
     private:
