@@ -23,6 +23,11 @@ class fluid_simulation{
 
         void setupEffects();
 
+        #if !( _USE_VEMC2 == 1 )
+        void unpause();
+        void run(bdt duration);
+        #endif
+
         cell **cellArray;
 
         int a;
@@ -40,8 +45,8 @@ class fluid_simulation{
         unsigned size_x=0, size_y=0, size_z=0;
 
         #if !( _USE_VEMC2 == 1 )
-            effect **effectArray;
-            int      effectCount;
+        effect **effectArray;
+        int      effectCount;
         #endif
 
     private:

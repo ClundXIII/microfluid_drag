@@ -58,6 +58,21 @@ void fluid_simulation::setupEffects(){
 
 }
 
+#if !( _USE_VEMC2 == 1 )
+//dummy function. does nothing. bugfix for vemc2.
+void fluid_simulation::unpause(){}
+
+void fluid_simulation::run(bdt duration){
+    for (int i=0; i<duration; i++){
+        effectArray[0]->tick();
+        effectArray[1]->tick();
+
+        effectArray[0]->upValues();
+        effectArray[1]->upValues();
+    }
+}
+#endif
+
 int fluid_simulation::getArrayPosByXYZ(unsigned x, unsigned y, unsigned z){
 
     if (x >= size_x)

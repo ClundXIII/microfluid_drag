@@ -1,7 +1,7 @@
 #ifndef MD_DEFINE_H_INCLUDED
 #define MD_DEFINE_H_INCLUDED
 
-#define _USE_VEMC2 1
+#define _USE_VEMC2 0
 
 enum direction{
     _000 =  0,
@@ -34,6 +34,7 @@ enum direction_mode{
 
 #if !( _USE_VEMC2 == 1 )
     class effect{
+        public:
         virtual void tick() =0;
 
         virtual void upValues() =0;
