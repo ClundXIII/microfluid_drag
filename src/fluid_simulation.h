@@ -17,7 +17,7 @@ class fluid_simulation : public vemc2::universe{
 class fluid_simulation{
 #endif // _USE_VEMC2
     public:
-        fluid_simulation();
+        fluid_simulation(fluid_simulation *u);
 
         void createCellGrid(unsigned size_x, unsigned size_y, unsigned size_z);
 
@@ -28,6 +28,8 @@ class fluid_simulation{
         int a;
 
         virtual ~fluid_simulation();
+
+        direction_mode dir_mode = _D3Q6;
 
     protected:
 

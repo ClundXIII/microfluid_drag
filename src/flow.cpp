@@ -3,9 +3,9 @@
 #include "cell.h"
 
 #if ( _USE_VEMC2 == 1 )
-flow::flow(vemc2::universe *u) : effect(u){
+flow::flow(fluid_simulation *u) : effect(u){
 #else
-flow::flow(){
+flow::flow(fluid_simulation *u){
 #endif
     //ctor
 }

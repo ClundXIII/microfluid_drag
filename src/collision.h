@@ -19,7 +19,7 @@ class collision : public effect{
         #if ( _USE_VEMC2 == 1 )
             collision(vemc2::universe *u);
         #else
-            collision();
+            collision(fluid_simulation *u);
         #endif
 
 

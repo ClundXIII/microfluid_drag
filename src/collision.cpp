@@ -5,7 +5,7 @@
 #if ( _USE_VEMC2 == 1 )
 collision::collision(vemc2::universe *u) : effect(u){
 #else
-collision::collision(){
+collision::collision(fluid_simulation *u){
 #endif
     //ctor
 }

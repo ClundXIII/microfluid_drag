@@ -16,9 +16,9 @@ class flow : public effect{
 #endif
     public:
         #if ( _USE_VEMC2 == 1 )
-            flow(vemc2::universe *u);
+            flow(fluid_simulation *u);
         #else
-            flow();
+            flow(fluid_simulation *u);
         #endif
 
         void tick();
