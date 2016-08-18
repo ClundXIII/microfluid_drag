@@ -8,6 +8,7 @@ set(HEADERS
     ${PROJECT_SOURCE_DIR}/src/cell.h
     ${PROJECT_SOURCE_DIR}/src/collision.h
     ${PROJECT_SOURCE_DIR}/src/flow.h
+    ${PROJECT_SOURCE_DIR}/src/fluid_simulation.h
 )
 
 # add source files of this module
@@ -16,6 +17,7 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/cell.cpp
     ${PROJECT_SOURCE_DIR}/src/collision.cpp
     ${PROJECT_SOURCE_DIR}/src/flow.cpp
+    ${PROJECT_SOURCE_DIR}/src/fluid_simulation.cpp
 )
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -g3") # -fsanitize=address")

@@ -15,6 +15,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="src/" />
 				</Compiler>
 			</Target>
 		</Build>
@@ -28,7 +29,25 @@
 		<Unit filename="src/cell.h">
 			<Option virtualFolder="src/" />
 		</Unit>
+		<Unit filename="src/collision.cpp">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/collision.h">
+			<Option virtualFolder="src/" />
+		</Unit>
 		<Unit filename="src/define.h">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/flow.cpp">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/flow.h">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/fluid_simulation.cpp">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/fluid_simulation.h">
 			<Option virtualFolder="src/" />
 		</Unit>
 		<Unit filename="src/main.cpp">
