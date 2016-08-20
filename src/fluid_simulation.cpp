@@ -15,7 +15,9 @@
 
 
 #if ( _USE_VEMC2 == 1 )
-fluid_simulation::fluid_simulation() : vemc2::universe(1){
+fluid_simulation::fluid_simulation() : vemc2::universe(0){
+    settings.sim.dt = 1;
+    unpause();
 #else
 fluid_simulation::fluid_simulation(){
 #endif
@@ -38,6 +40,10 @@ void fluid_simulation::createCellGrid(unsigned size_x, unsigned size_y, unsigned
             for (int k=0; k<size_z; k++){
 
                 cellArray[cell_pos] = new cell();
+                #if ( _USE_VEMC2 == 1 )
+                    insertDrawable(cellArray[cell_pos]);
+                #endif
+
                 cellArray[cell_pos]->pos_x = i;
                 cellArray[cell_pos]->pos_y = j;
                 cellArray[cell_pos]->pos_z = k;
