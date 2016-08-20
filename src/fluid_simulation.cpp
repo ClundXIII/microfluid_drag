@@ -3,11 +3,12 @@
 #include "collision.h"
 #include "flow.h"
 
+#include <iostream>
+
 #if ( _USE_VEMC2 == 1 )
     //#define out v_out
     #define out_endl Vesper::LoggingTypes::eom
 #else
-    #include <iostream>
     #define out std::cout
     #define out_endl std::endl;
 #endif // _USE_VEMC2
