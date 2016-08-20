@@ -22,11 +22,20 @@ class cell{
 
         unsigned pos_x, pos_y, pos_z;
 
+        void debug_info();
+
+        ///simulation functions:
+        void collide();
+        void apply_boundary();
+        void stream();
+
         virtual ~cell();
+
+        bdt flow[DIRECTION_FLOW_SIZE];
+        bdt tmp_new_flow[DIRECTION_FLOW_SIZE];
     protected:
     private:
 
-        bdt flow[DIRECTION_FLOW_SIZE];
         cell **neighbour;
 };
 

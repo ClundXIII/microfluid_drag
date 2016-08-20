@@ -29,6 +29,7 @@ class collision : public effect{
     protected:
     private:
 
+        fluid_simulation *fluidSim;
         Cell **allCells;
 };
 

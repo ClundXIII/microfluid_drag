@@ -27,7 +27,9 @@ void fluid_simulation::createCellGrid(unsigned size_x, unsigned size_y, unsigned
     this->size_y = size_y;
     this->size_z = size_z;
 
-    cellArray = new cell*[size_x*size_y*size_z];
+    cellArraySize = size_x*size_y*size_z;
+
+    cellArray = new cell*[cellArraySize];
 
     int cell_pos = 0;
     for (int i=0; i<size_x; i++){
@@ -44,7 +46,34 @@ void fluid_simulation::createCellGrid(unsigned size_x, unsigned size_y, unsigned
         }
     }
 
-    out << "crated " << size_x*size_y*size_z << " Cells!" << out_endl;
+    for (int i=0; i<size_x; i++){
+        for (int j=0; j<size_y; j++){
+            for (int k=0; k<size_z; k++){
+                switch (DIRECTION_FLOW_MODEL){
+
+                    case _D3Q18:
+
+
+                    //no break here because we need to do the 6 dirs anyway
+                    case _D3Q6:
+
+                        if (getCellByXYZ(i-1, j, k)) getCellByXYZ(i, j, k)->add_neighbour(_m00, getCellByXYZ(i-1, j, k));
+                        if (getCellByXYZ(i+1, j, k)) getCellByXYZ(i, j, k)->add_neighbour(_p00, getCellByXYZ(i+1, j, k));
+                        if (getCellByXYZ(i, j-1, k)) getCellByXYZ(i, j, k)->add_neighbour(_0m0, getCellByXYZ(i, j-1, k));
+                        if (getCellByXYZ(i, j+1, k)) getCellByXYZ(i, j, k)->add_neighbour(_0p0, getCellByXYZ(i, j+1, k));
+                        if (getCellByXYZ(i, j, k-1)) getCellByXYZ(i, j, k)->add_neighbour(_00m, getCellByXYZ(i, j, k-1));
+                        if (getCellByXYZ(i, j, k+1)) getCellByXYZ(i, j, k)->add_neighbour(_00p, getCellByXYZ(i, j, k+1));
+                        break;
+
+                    default:
+                        out << "wrong flow model!" << out_endl;
+                        break;
+                }
+            }
+        }
+    }
+
+    out << "crated " << cell_pos << " Cells!" << out_endl;
 }
 
 void fluid_simulation::setupEffects(){
@@ -102,6 +131,15 @@ cell* fluid_simulation::getCellByXYZ(unsigned x, unsigned y, unsigned z){
 }
 
 std::vector<unsigned> fluid_simulation::getXYZbyArrayPos(unsigned aPos){
+
+    std::cout << "not implemented" << std::endl;
+
+}
+
+void fluid_simulation::print_debug(){
+    for (int i=0; i<(size_x*size_y*size_z); i++){
+        cellArray[i]->debug_info();
+    }
 }
 
 fluid_simulation::~fluid_simulation(){

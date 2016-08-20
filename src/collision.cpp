@@ -10,15 +10,17 @@ collision::collision(fluid_simulation *u) : effect(u){
 #else
 collision::collision(fluid_simulation *u){
 #endif
-    //ctor
+    fluidSim = u;
 }
 
 void collision::tick(){
-    std::cout << "tick c" << std::endl;
+    for (int i=0; i<fluidSim->cellArraySize; i++){
+        fluidSim->cellArray[i]->collide();
+        fluidSim->cellArray[i]->apply_boundary();
+    }
 }
 
 void collision::upValues(){
-    std::cout << "up c" << std::endl;
 }
 
 void collision::setCellList(Cell **allCells){

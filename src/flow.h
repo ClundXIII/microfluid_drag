@@ -32,6 +32,7 @@ class flow : public effect{
     protected:
     private:
 
+        fluid_simulation *fluidSim;
         cell **allCells;
 };
 

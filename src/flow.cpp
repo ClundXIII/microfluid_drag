@@ -10,15 +10,16 @@ flow::flow(fluid_simulation *u) : effect(u){
 #else
 flow::flow(fluid_simulation *u){
 #endif
-    //ctor
+    fluidSim = u;
 }
 
 void flow::tick(){
-    std::cout << "tick f" << std::endl;
 }
 
 void flow::upValues(){
-    std::cout << "up f" << std::endl;
+    for (int i=0; i<fluidSim->cellArraySize; i++){
+        fluidSim->cellArray[i]->stream();
+    }
 }
 
 void flow::setCellList(cell **allCells){

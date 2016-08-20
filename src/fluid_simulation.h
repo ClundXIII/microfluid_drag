@@ -29,8 +29,9 @@ class fluid_simulation{
         #endif
 
         cell **cellArray;
+        int    cellArraySize;
 
-        int a;
+        void print_debug();
 
         virtual ~fluid_simulation();
 

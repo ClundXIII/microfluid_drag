@@ -45,8 +45,10 @@ enum direction_mode{
 #define _size_D3Q18 19
 
 ///define which model to use:
-#define DIRECTION_FLOW_MODEL _D3Q18
-#define DIRECTION_FLOW_SIZE  _size_D3Q18
+//#define DIRECTION_FLOW_MODEL _D3Q18
+//#define DIRECTION_FLOW_SIZE  _size_D3Q18
+#define DIRECTION_FLOW_MODEL _D3Q6
+#define DIRECTION_FLOW_SIZE  _size_D3Q6
 
 ///define which datatype to use:
 #define bdt double

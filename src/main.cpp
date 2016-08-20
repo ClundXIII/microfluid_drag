@@ -38,8 +38,10 @@ int main(int argc, const char* argv[]){
     u->createCellGrid(10, 10, 10);
     u->setupEffects();
 
+    //u->print_debug();
+
     u->unpause();
-    u->run(10);
+    u->run(3);
 
     delete(u);
 
