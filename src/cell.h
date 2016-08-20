@@ -29,10 +29,12 @@ class cell{
         void apply_boundary();
         void stream();
 
+        void reset_outbound();
+
         virtual ~cell();
 
-        bdt flow[DIRECTION_FLOW_SIZE];
-        bdt tmp_new_flow[DIRECTION_FLOW_SIZE];
+        bdt  inbound_flow[DIRECTION_FLOW_SIZE];
+        bdt outbound_flow[DIRECTION_FLOW_SIZE];
     protected:
     private:
 

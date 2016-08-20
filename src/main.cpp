@@ -40,8 +40,7 @@ int main(int argc, const char* argv[]){
 
     //u->print_debug();
 
-    u->unpause();
-    u->run(3);
+    u->run(3000);
 
     delete(u);
 

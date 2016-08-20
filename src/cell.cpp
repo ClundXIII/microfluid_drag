@@ -34,11 +34,53 @@ void cell::debug_info(){
 }
 
 void cell::collide(){
-    std::cout << "collide " << pos_x << " " << pos_y << " " << pos_z << std::endl;
+
+    switch (DIRECTION_FLOW_MODEL){
+
+        case _D3Q18:
+
+
+            //no break here because we need to do the 6 dirs anyway
+        case _D3Q6:
+
+            outbound_flow[_p00] += inbound_flow[_p00];
+            outbound_flow[_m00] += inbound_flow[_m00];
+            outbound_flow[_0p0] += inbound_flow[_0p0];
+            outbound_flow[_0m0] += inbound_flow[_0m0];
+            outbound_flow[_00p] += inbound_flow[_00p];
+            outbound_flow[_00m] += inbound_flow[_00m];
+
+            break;
+
+        default:
+            std::cout << "wrong flow model!" << std::endl;
+            break;
+    }
+
 }
 
 void cell::apply_boundary(){
-    std::cout << "boundary " << pos_x << " " << pos_y << " " << pos_z << std::endl;
+    switch (DIRECTION_FLOW_MODEL){
+
+        case _D3Q18:
+
+
+            //no break here because we need to do the 6 dirs anyway
+        case _D3Q6:
+
+            if (!neighbour[_m00]) outbound_flow[_p00] += outbound_flow[_m00];
+            if (!neighbour[_p00]) outbound_flow[_m00] += outbound_flow[_p00];
+            if (!neighbour[_0m0]) outbound_flow[_0p0] += outbound_flow[_0m0];
+            if (!neighbour[_0p0]) outbound_flow[_0m0] += outbound_flow[_0p0];
+            if (!neighbour[_00m]) outbound_flow[_00p] += outbound_flow[_00m];
+            if (!neighbour[_00p]) outbound_flow[_00m] += outbound_flow[_00p];
+
+            break;
+
+        default:
+            std::cout << "wrong flow model!" << std::endl;
+            break;
+    }
 }
 
 void cell::stream(){
@@ -50,18 +92,24 @@ void cell::stream(){
             //no break here because we need to do the 6 dirs anyway
         case _D3Q6:
 
-            if (neighbour[_m00]) tmp_new_flow[_p00] = neighbour[_m00]->flow[_p00];
-            if (neighbour[_p00]) tmp_new_flow[_m00] = neighbour[_p00]->flow[_m00];
-            if (neighbour[_0m0]) tmp_new_flow[_0p0] = neighbour[_0m0]->flow[_0p0];
-            if (neighbour[_0p0]) tmp_new_flow[_0m0] = neighbour[_0p0]->flow[_0m0];
-            if (neighbour[_00m]) tmp_new_flow[_00p] = neighbour[_00m]->flow[_00p];
-            if (neighbour[_00p]) tmp_new_flow[_00m] = neighbour[_00p]->flow[_00m];
+            if (neighbour[_m00]) inbound_flow[_p00] = neighbour[_m00]->outbound_flow[_p00];
+            if (neighbour[_p00]) inbound_flow[_m00] = neighbour[_p00]->outbound_flow[_m00];
+            if (neighbour[_0m0]) inbound_flow[_0p0] = neighbour[_0m0]->outbound_flow[_0p0];
+            if (neighbour[_0p0]) inbound_flow[_0m0] = neighbour[_0p0]->outbound_flow[_0m0];
+            if (neighbour[_00m]) inbound_flow[_00p] = neighbour[_00m]->outbound_flow[_00p];
+            if (neighbour[_00p]) inbound_flow[_00m] = neighbour[_00p]->outbound_flow[_00m];
 
             break;
 
         default:
             std::cout << "wrong flow model!" << std::endl;
             break;
+    }
+}
+
+void cell::reset_outbound(){
+    for (unsigned i=0; i<DIRECTION_FLOW_SIZE; i++){
+        outbound_flow[i] = 0;
     }
 }
 

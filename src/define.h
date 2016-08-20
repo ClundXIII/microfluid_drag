@@ -1,7 +1,7 @@
 #ifndef MD_DEFINE_H_INCLUDED
 #define MD_DEFINE_H_INCLUDED
 
-#define _USE_VEMC2 0
+#define _USE_VEMC2 1
 
 enum direction{
     _000 =  0,
