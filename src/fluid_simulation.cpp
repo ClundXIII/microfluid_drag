@@ -137,12 +137,6 @@ cell* fluid_simulation::getCellByXYZ(unsigned x, unsigned y, unsigned z){
     return cellArray[pos];
 }
 
-std::vector<unsigned> fluid_simulation::getXYZbyArrayPos(unsigned aPos){
-
-    std::cout << "not implemented" << std::endl;
-
-}
-
 void fluid_simulation::print_debug(){
     for (int i=0; i<(size_x*size_y*size_z); i++){
         cellArray[i]->debug_info();

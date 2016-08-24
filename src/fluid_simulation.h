@@ -41,7 +41,6 @@ class fluid_simulation{
 
         int getArrayPosByXYZ(unsigned x, unsigned y, unsigned z);
         cell* getCellByXYZ(unsigned x, unsigned y, unsigned z);
-        std::vector<unsigned> getXYZbyArrayPos(unsigned aPos);
 
         unsigned size_x=0, size_y=0, size_z=0;
 
