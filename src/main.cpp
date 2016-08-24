@@ -7,6 +7,9 @@
 #include "fluid_simulation.h"
 
 #if ( _USE_VEMC2 == 1 )
+
+    #include <vemc2/graphic/graphic.h>
+
     #include <vemc2/core/universe.h>
     Vesper::Logging v_out(Vesper::LoggingTypes::client);
     #define out v_out
@@ -34,13 +37,42 @@ int main(int argc, const char* argv[]){
 
     fluid_simulation *u = new fluid_simulation();
 
+
+    #if ( _USE_VEMC2 == 1 )
+    out << "open vemc2 graphic window" << out_endl;
+
+    vemc2::graphic::graphicgl *g = new vemc2::graphic::graphicgl(argc, (char**) argv);
+
+    #endif
+
     out << "setting up cells ..." << out_endl;
     u->createCellGrid(10, 10, 10);
     u->setupEffects();
 
     //u->print_debug();
 
-    u->run(3000);
+    #if ( _USE_VEMC2 == 1 )
+    u->simulationThread->time_to_stop = -1;
+    u->start();
+    u->unpause();
+
+    out << "attach universe ..." << out_endl;
+    g->attachUniverse(u);
+    out << "attached universe!" << out_endl;
+
+    #else
+
+    u->run(300);
+
+    #endif
+
+
+    #if ( _USE_VEMC2 == 1 )
+
+    g->stop();
+    delete(g);
+
+    #endif
 
     delete(u);
 

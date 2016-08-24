@@ -11,7 +11,9 @@ cell::cell(){
 }
 
 void cell::draw(){
-
+    #if ( _USE_VEMC2 == 1 )
+        //opengl goes here, yay
+    #endif
 }
 
 int cell::add_neighbour(direction where, cell *neighbour){
