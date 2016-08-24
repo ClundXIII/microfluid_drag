@@ -39,7 +39,7 @@ void fluid_simulation::createCellGrid(unsigned size_x, unsigned size_y, unsigned
         for (int j=0; j<size_y; j++){
             for (int k=0; k<size_z; k++){
 
-                cellArray[cell_pos] = new cell();
+                cellArray[cell_pos] = new cell(this);
                 #if ( _USE_VEMC2 == 1 )
                     insertDrawable(cellArray[cell_pos]);
                 #endif

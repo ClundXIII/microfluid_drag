@@ -7,6 +7,8 @@
 #include <vemc2/core/universe.h>
 #endif // _USE_VEMC2
 
+class fluid_simulation;
+
 #if ( _USE_VEMC2 == 1 )
 class cell : public vemc2::simulation::drawable{
 #else
@@ -14,7 +16,7 @@ class cell{
 #endif // _USE_VEMC2
     public:
 
-        cell();
+        cell(fluid_simulation *u);
 
         virtual void draw();
 
@@ -39,6 +41,8 @@ class cell{
     private:
 
         cell **neighbour;
+
+        fluid_simulation* motherU;
 };
 
 #endif // CELL_H

@@ -1,18 +1,23 @@
 #include "cell.h"
+#include "fluid_simulation.h"
 
 #include <iostream>
 
-cell::cell(){
+#if ( _USE_VEMC2 == 1 )
+    #include <vemc2/graphic/draws.h>
+#endif
+
+cell::cell(fluid_simulation *u){
     #if ( _USE_VEMC2 == 1 )
         setActive(true);
     #endif
-
+    motherU = u;
     neighbour = new cell*[DIRECTION_FLOW_SIZE];
 }
 
 void cell::draw(){
     #if ( _USE_VEMC2 == 1 )
-        //opengl goes here, yay
+        vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 1);
     #endif
 }
 
