@@ -20,6 +20,9 @@ void flow::upValues(){
     for (int i=0; i<fluidSim->cellArraySize; i++){
         fluidSim->cellArray[i]->stream();
     }
+    for (int i=0; i<fluidSim->cellArraySize; i++){
+        fluidSim->cellArray[i]->reset_outbound();
+    }
 }
 
 void flow::setCellList(cell **allCells){
