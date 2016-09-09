@@ -38,6 +38,9 @@ class cell{
         bdt  inbound_flow[DIRECTION_FLOW_SIZE];
         bdt outbound_flow[DIRECTION_FLOW_SIZE];
     protected:
+
+        bdt last_pressure=0;
+
     private:
 
         cell **neighbour;

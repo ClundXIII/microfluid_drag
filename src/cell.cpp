@@ -2,6 +2,8 @@
 #include "fluid_simulation.h"
 
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 #if ( _USE_VEMC2 == 1 )
     #include <vemc2/graphic/draws.h>
@@ -17,7 +19,7 @@ cell::cell(fluid_simulation *u){
 
 void cell::draw(){
     #if ( _USE_VEMC2 == 1 )
-        vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 1);
+        vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+last_pressure);
     #endif
 }
 
@@ -56,6 +58,13 @@ void cell::collide(){
             outbound_flow[_0m0] += inbound_flow[_0m0];
             outbound_flow[_00p] += inbound_flow[_00p];
             outbound_flow[_00m] += inbound_flow[_00m];
+
+            last_pressure += inbound_flow[_p00];
+            last_pressure += inbound_flow[_m00];
+            last_pressure += inbound_flow[_0p0];
+            last_pressure += inbound_flow[_0m0];
+            last_pressure += inbound_flow[_00p];
+            last_pressure += inbound_flow[_00m];
 
             break;
 
@@ -117,6 +126,12 @@ void cell::stream(){
 void cell::reset_outbound(){
     for (unsigned i=0; i<DIRECTION_FLOW_SIZE; i++){
         outbound_flow[i] = 0;
+    }
+
+    last_pressure = 0;
+
+    if ((pos_x==0)&&(pos_y==0)&&(pos_z==0)){
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 }
 

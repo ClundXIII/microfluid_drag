@@ -80,6 +80,24 @@ void fluid_simulation::createCellGrid(unsigned size_x, unsigned size_y, unsigned
         }
     }
 
+    for (int i=0; i<size_x; i++){
+        for (int j=0; j<size_y; j++){
+            getCellByXYZ(i, j, 0)->inbound_flow[_00m] = 0.3;
+        }
+    }
+
+    for (int i=0; i<size_x; i++){
+        for (int j=0; j<size_y; j++){
+            getCellByXYZ(i, 0, j)->inbound_flow[_0m0] = 0.3;
+        }
+    }
+
+    for (int i=0; i<size_x; i++){
+        for (int j=0; j<size_y; j++){
+            getCellByXYZ(0, i, j)->inbound_flow[_m00] = 0.3;
+        }
+    }
+
     out << "crated " << cell_pos << " Cells!" << out_endl;
 }
 
