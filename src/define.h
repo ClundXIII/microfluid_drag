@@ -1,7 +1,7 @@
 #ifndef MD_DEFINE_H_INCLUDED
 #define MD_DEFINE_H_INCLUDED
 
-#define _USE_VEMC2 0
+#define _USE_VEMC2 1
 
 enum direction{
     _000 =  0,
@@ -16,12 +16,12 @@ enum direction{
     _pm0 =  8,
     _p0p =  9,
     _p0m = 10,
-    _mp0 = 11,
-    _mm0 = 12,
-    _m0p = 13,
-    _m0m = 14,
-    _0pp = 15,
-    _0pm = 16,
+    _0pp = 11,
+    _0pm = 12,
+    _mp0 = 13,
+    _mm0 = 14,
+    _m0p = 15,
+    _m0m = 16,
     _0mp = 17,
     _0mm = 18
 };
@@ -51,6 +51,6 @@ enum direction_mode{
 #define DIRECTION_FLOW_SIZE  _size_D3Q6
 
 ///define which datatype to use:
-#define bdt double
+typedef double bdt;
 
 #endif // MD_DEFINE_H_INCLUDED

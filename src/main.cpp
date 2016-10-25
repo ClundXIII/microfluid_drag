@@ -24,6 +24,7 @@ int main(int argc, const char* argv[]){
     out << "Loading Lattice Boltzmann ..." << out_endl;
     out << "              (c) Simon Michalke, 2016" << out_endl;
 
+    out << "bdt is double" << out_endl;
 
     std::list<std::string> argList;
 
@@ -58,7 +59,6 @@ int main(int argc, const char* argv[]){
 
     out << "attach universe ..." << out_endl;
     g->attachUniverse(u);
-    out << "attached universe!" << out_endl;
 
     #else
 

@@ -25,6 +25,8 @@ class collision : public effect{
 
         void setCellList(Cell **allCells);
 
+        static bdt* f_eq(bdt flow[]);
+
         virtual ~collision();
     protected:
     private:
