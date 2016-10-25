@@ -27,8 +27,8 @@ enum direction{
 };
 
 enum direction_mode{
-    _D3Q6  = 1,
-    _D3Q18 = 2
+    _D3Q7  = 1,
+    _D3Q19 = 2
 };
 
 
@@ -41,14 +41,16 @@ enum direction_mode{
     };
 #endif
 
-#define _size_D3Q6   7
-#define _size_D3Q18 19
+#define _size_D3Q7   7
+#define _size_D3Q19 19
 
 ///define which model to use:
 //#define DIRECTION_FLOW_MODEL _D3Q18
 //#define DIRECTION_FLOW_SIZE  _size_D3Q18
-#define DIRECTION_FLOW_MODEL _D3Q6
-#define DIRECTION_FLOW_SIZE  _size_D3Q6
+#define DIRECTION_FLOW_MODEL _D3Q19
+#define DIRECTION_FLOW_SIZE  _size_D3Q19
+
+#define M_PI 3.14159265358979323846  /* pi */
 
 ///define which datatype to use:
 typedef double bdt;

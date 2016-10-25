@@ -58,9 +58,15 @@ bdt _v[DIRECTION_FLOW_SIZE][3] = {
     #endif
 };
 
+const bdt sqrt_2 = sqrt(2);
+
 void buildVecFromDirection(bdt u, int d, bdt *vec){
 
-    switch (d){
+    for (int i=0; i<3; i++){
+        vec[i] += _v[d][i] * u;
+    }
+
+    /*switch (d){
 
         case _000:
             break;
@@ -84,10 +90,12 @@ void buildVecFromDirection(bdt u, int d, bdt *vec){
             break;
         //
         case _pp0:
-
+            vec[0] += sqrt_2*u;
+            vec[1] += sqrt_2*u;
             break;
         case _pm0:
-
+            vec[0] += sqrt_2*u;
+            vec[1] -= sqrt_2*u;
             break;
         case _p0p:
 
@@ -123,84 +131,71 @@ void buildVecFromDirection(bdt u, int d, bdt *vec){
         default:
             std::cout << "direction not recognized in collision.cpp::buildVecFromDirection" << std::endl;
             break;
-    }
+    }*/
 
 }
 
 int del(int i, int j){
-    if (i==j)
+    /*if (i==j)
         return 1;
     else
-        return 0;
-    return (i==j);
+        return 0;*/
+    return (i==j)?1:0;
+}
+
+bdt w_lq_func(int q){
+    if (q==_000) return 1.d/3.d;
+    if ((q>=1)          && (q<_size_D3Q7 )) return 1.d/18.d;
+    if ((q>=_size_D3Q7) && (q<_size_D3Q19)) return 1.d/36.d;
+    return 0;
 }
 
 bdt* collision::f_eq(bdt flow[]){
 
     bdt rho=0;
 
-    const bdt c_s = .1/sqrt(3);
+    const bdt c_s = 1.f/sqrt(3);
 
     bdt *retValue = new bdt[DIRECTION_FLOW_SIZE];
 
-    for (int i=1; i<DIRECTION_FLOW_SIZE; i++){
+    for (int i=0; i<DIRECTION_FLOW_SIZE; i++){
         rho += flow[i];
     }
 
-    bdt w_lq = 1;
+    bdt u[3] = {0, 0, 0};
 
-    //page 72
-    switch (DIRECTION_FLOW_MODEL) {
+    //std::cout << rho << std::endl;
 
-        case (_D3Q18):{
+    for (int q=(DIRECTION_FLOW_SIZE-1); q>0; q--){
+        buildVecFromDirection(flow[q]/*/rho*/, q, u);
+    }
 
-            w_lq = _W_1;
+    for (int q=(DIRECTION_FLOW_SIZE-1); q>0; q--){
 
-            for (int q=_size_D3Q18; q>=_size_D3Q6; q--){
-                retValue[q] = rho*w_lq*( 1 );
+        retValue[q] = 1;
+
+        for (int i=0; i<3; i++){
+
+            retValue[q] += (u[i]*_v[q][i]) / (c_s*c_s);
+
+            for (int j=0; j<3; j++){
+
+                /*retValue[q] += ( (u[i]*u[j])/(2.f*c_s*c_s) ) *
+                            ( (_v[q][i]*_v[q][j]) / (c_s*c_s) - del(i, j) );*/
+
+                retValue[q] += (u[i]*u[j]*_v[q][i]*_v[q][j])/(2.f*c_s*c_s*c_s*c_s);
+
+                retValue[q] -= (u[i]*u[j]*del(i, j))/(2.f*c_s*c_s);
+
+                //if (retValue[q] != 1) std::cout << "q: " << q << ", i:" << i << ", j:" << j << ", retValue[q]:" << retValue[q] << std::endl;
             }
         }
 
-        case (_D3Q6):{
+        retValue[q] *= rho * w_lq_func(q);
 
-            w_lq = _W_0;
-            bdt u[3] = {0, 0, 0};
-
-            for (int q=(_size_D3Q6-1); q>0; q--){
-                buildVecFromDirection(flow[q], q, u);
-            }
-
-            for (int q=(_size_D3Q6-1); q>0; q--){
-
-                retValue[q] = 1;
-
-                for (int i=0; i<3; i++){
-
-                    retValue[q] += (u[i]*_v[q][i]) / (c_s*c_s);
-
-                    for (int j=0; j<3; j++){
-
-                        retValue[q] += ( (u[i]*u[j])/(2.0*c_s*c_s) ) *
-                                       ( (_v[q][i]*_v[q][j]) / (c_s*c_s) - del(i, j) );
-
-                        if (u[i] != 0) std::cout << "q: " << q << ", i:" << i << ", j:" << j << ", retValue[q]:" << retValue[q] << std::endl;
-                    }
-                }
-
-                retValue[q] *= rho * w_lq;
-
-                if (retValue[q] != 0){
-                    std::cout << retValue[q] << std::endl;
-                }
-
-            }
-
-            break;
-        }
-
-        default:
-
-            throw (char*) "wrong flow model!";
+        //if (retValue[q] != 0){
+        //    std::cout << retValue[q] << std::endl;
+        //}
     }
 
     retValue[0] = 0;

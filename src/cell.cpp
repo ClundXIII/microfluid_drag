@@ -17,16 +17,35 @@ cell::cell(fluid_simulation *u){
     #endif
     motherU = u;
     neighbour = new cell*[DIRECTION_FLOW_SIZE];
+    for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
+        neighbour[q] = 0;
+    }
+
+    //inbound_flow[0] = 0;
+    for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
+        inbound_flow[q] = 0;
+        outbound_flow[q] = 0;
+    }
 }
 
 void cell::draw(){
 
-    //if (last_pressure != 0)
-    //    std::cout << "last pressure: " << last_pressure << std::endl;
+    //if (last_pressure != 0){std::cout << "last pressure: " << last_pressure << std::endl;}
 
-    #if ( _USE_VEMC2 == 1 )
-        vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+last_pressure);
-    #endif
+    if (last_pressure < 0){
+        std::cout << "last pressure: " << last_pressure << std::endl;
+        #if ( _USE_VEMC2 == 1 )
+            glColor3f(1.f, 0.f, 0.f);
+            vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((last_pressure)*100.f));
+            glColor3f(1.f, 1.f, 1.f);
+        #endif
+
+    }
+    else {
+        #if ( _USE_VEMC2 == 1 )
+            vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((last_pressure)*100.f));
+        #endif
+    }
 }
 
 int cell::add_neighbour(direction where, cell *neighbour){
@@ -48,50 +67,30 @@ void cell::debug_info(){
     }
 }
 
-bdt omega = .25/.3;
+bdt omega = 2.f/3.f;
 
 void cell::collide(){
 
-    switch (DIRECTION_FLOW_MODEL){
+    bdt *f_eq_flow;
+    f_eq_flow = collision::f_eq(inbound_flow);
 
-        case _D3Q18:
+    for (int q=1; q<DIRECTION_FLOW_SIZE; q++){
+        outbound_flow[q] += inbound_flow[q] + omega * (f_eq_flow[q] - inbound_flow[q]);
+    }
 
+    /*outbound_flow[_p00] += inbound_flow[_p00] + omega * (f_eq_flow[_p00] - inbound_flow[_p00]);
+    outbound_flow[_m00] += inbound_flow[_m00] + omega * (f_eq_flow[_m00] - inbound_flow[_m00]);
+    outbound_flow[_0p0] += inbound_flow[_0p0] + omega * (f_eq_flow[_0p0] - inbound_flow[_0p0]);
+    outbound_flow[_0m0] += inbound_flow[_0m0] + omega * (f_eq_flow[_0m0] - inbound_flow[_0m0]);
+    outbound_flow[_00p] += inbound_flow[_00p] + omega * (f_eq_flow[_00p] - inbound_flow[_00p]);
+    outbound_flow[_00m] += inbound_flow[_00m] + omega * (f_eq_flow[_00m] - inbound_flow[_00p]);*/
 
-            //no break here because we need to do the 6 dirs anyway
-        case _D3Q6:
+    delete[](f_eq_flow);
 
-            bdt *f_eq_flow;
-            f_eq_flow = collision::f_eq(inbound_flow);
-/*
-            outbound_flow[_p00] += inbound_flow[_p00];
-            outbound_flow[_m00] += inbound_flow[_m00];
-            outbound_flow[_0p0] += inbound_flow[_0p0];
-            outbound_flow[_0m0] += inbound_flow[_0m0];
-            outbound_flow[_00p] += inbound_flow[_00p];
-            outbound_flow[_00m] += inbound_flow[_00m];
-*/
-            outbound_flow[_p00] += inbound_flow[_p00] + omega * (f_eq_flow[_p00] - inbound_flow[_p00]);
-            outbound_flow[_m00] += inbound_flow[_m00] + omega * (f_eq_flow[_m00] - inbound_flow[_m00]);
-            outbound_flow[_0p0] += inbound_flow[_0p0] + omega * (f_eq_flow[_0p0] - inbound_flow[_0p0]);
-            outbound_flow[_0m0] += inbound_flow[_0m0] + omega * (f_eq_flow[_0m0] - inbound_flow[_0m0]);
-            outbound_flow[_00p] += inbound_flow[_00p] + omega * (f_eq_flow[_00p] - inbound_flow[_00p]);
-            outbound_flow[_00m] += inbound_flow[_00m] + omega * (f_eq_flow[_00m] - inbound_flow[_00p]);
+    last_pressure = 0;
 
-            delete[](f_eq_flow);
-
-            last_pressure = 0;
-            last_pressure += outbound_flow[_p00];
-            last_pressure += outbound_flow[_m00];
-            last_pressure += outbound_flow[_0p0];
-            last_pressure += outbound_flow[_0m0];
-            last_pressure += outbound_flow[_00p];
-            last_pressure += outbound_flow[_00m];
-
-            break;
-
-        default:
-            std::cout << "wrong flow model!" << std::endl;
-            break;
+    for (int q=1; q<DIRECTION_FLOW_SIZE; q++){
+        last_pressure += outbound_flow[q];
     }
 
 }
@@ -99,11 +98,11 @@ void cell::collide(){
 void cell::apply_boundary(){
     switch (DIRECTION_FLOW_MODEL){
 
-        case _D3Q18:
+        case _D3Q19:
 
 
             //no break here because we need to do the 6 dirs anyway
-        case _D3Q6:
+        case _D3Q7:
 
             if (!neighbour[_m00]) {
                     outbound_flow[_p00] += outbound_flow[_m00];
@@ -139,13 +138,31 @@ void cell::apply_boundary(){
 }
 
 void cell::stream(){
+    /*for (unsigned i=0; i<DIRECTION_FLOW_SIZE; i++){
+        inbound_flow[i] = 0;
+    }*/
     switch (DIRECTION_FLOW_MODEL){
 
-        case _D3Q18:
+        case _D3Q19:
 
+            if (neighbour[_mm0]) inbound_flow[_pp0] = neighbour[_mm0]->outbound_flow[_pp0];
+            if (neighbour[_mp0]) inbound_flow[_pm0] = neighbour[_mp0]->outbound_flow[_pm0];
+            if (neighbour[_m0m]) inbound_flow[_p0p] = neighbour[_m0m]->outbound_flow[_p0p];
+            if (neighbour[_m0p]) inbound_flow[_p0m] = neighbour[_m0p]->outbound_flow[_p0m];
+
+            if (neighbour[_pm0]) inbound_flow[_mp0] = neighbour[_pm0]->outbound_flow[_mp0];
+            if (neighbour[_pp0]) inbound_flow[_mm0] = neighbour[_pp0]->outbound_flow[_mm0];
+            if (neighbour[_p0m]) inbound_flow[_m0p] = neighbour[_p0m]->outbound_flow[_m0p];
+            if (neighbour[_p0p]) inbound_flow[_m0m] = neighbour[_p0p]->outbound_flow[_m0m];
+
+            if (neighbour[_0mm]) inbound_flow[_0pp] = neighbour[_0mm]->outbound_flow[_0pp];
+            if (neighbour[_0mp]) inbound_flow[_0pm] = neighbour[_0mp]->outbound_flow[_0pm];
+
+            if (neighbour[_0pm]) inbound_flow[_0mp] = neighbour[_0pm]->outbound_flow[_0mp];
+            if (neighbour[_0pp]) inbound_flow[_0mm] = neighbour[_0pp]->outbound_flow[_0mm];
 
             //no break here because we need to do the 6 dirs anyway
-        case _D3Q6:
+        case _D3Q7:
 
             if (neighbour[_m00]) inbound_flow[_p00] = neighbour[_m00]->outbound_flow[_p00];
             if (neighbour[_p00]) inbound_flow[_m00] = neighbour[_p00]->outbound_flow[_m00];
@@ -162,17 +179,15 @@ void cell::stream(){
     }
 }
 
+int a=0;
 void cell::reset_outbound(){
     for (unsigned i=0; i<DIRECTION_FLOW_SIZE; i++){
         outbound_flow[i] = 0;
     }
 
-
     if ((pos_x==5)&&(pos_y==5)&&(pos_z==5)){
-        //std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        std::cout << ">";
-        int a;
-        std::cin >> a;
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        if (!a) {std::cout << ">";std::cin >> a;}
     }
 
 }

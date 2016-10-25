@@ -35,7 +35,7 @@ class fluid_simulation{
 
         virtual ~fluid_simulation();
 
-        direction_mode dir_mode = _D3Q6;
+        direction_mode dir_mode = DIRECTION_FLOW_MODEL;
 
     protected:
 

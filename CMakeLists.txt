@@ -27,4 +27,4 @@ SET(GCC_COVERAGE_LINK_FLAGS    "-pthread")
 SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS} -fsanitize=address -g")
 
 add_executable(microfluid_drag ${HEADERS} ${SOURCES})
-target_link_libraries(microfluid_drag vcore vesper-log vgl)
+target_link_libraries(microfluid_drag vcore vesper-log vgl GL GLU GLEW glut)
