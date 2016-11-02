@@ -85,6 +85,8 @@ void fluid_simulation::createCellGrid(unsigned size_x, unsigned size_y, unsigned
                         if (getCellByXYZ(i, j+1, k)) getCellByXYZ(i, j, k)->add_neighbour(_0p0, getCellByXYZ(i, j+1, k));
                         if (getCellByXYZ(i, j, k-1)) getCellByXYZ(i, j, k)->add_neighbour(_00m, getCellByXYZ(i, j, k-1));
                         if (getCellByXYZ(i, j, k+1)) getCellByXYZ(i, j, k)->add_neighbour(_00p, getCellByXYZ(i, j, k+1));
+
+                        getCellByXYZ(i, j, k)->add_neighbour(_000, getCellByXYZ(i, j, k));
                         break;
 
 
@@ -96,9 +98,9 @@ void fluid_simulation::createCellGrid(unsigned size_x, unsigned size_y, unsigned
         }
     }
 
-    for (int i=1; i<(size_x); i++){
-        for (int j=1; j<(size_y); j++){
-            getCellByXYZ(i, j, 2)->inbound_flow[_00p] = 0.05;
+    for (int i=0; i<(size_x); i++){
+        for (int j=0; j<(size_y); j++){
+            getCellByXYZ(i, j, 1)->inbound_flow[_00p] = 0.3;
         }
     }
 /*

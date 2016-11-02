@@ -66,81 +66,10 @@ void buildVecFromDirection(bdt u, int d, bdt *vec){
         vec[i] += _v[d][i] * u;
     }
 
-    /*switch (d){
-
-        case _000:
-            break;
-        case _p00:
-            vec[0] +=  u;
-            break;
-        case _m00:
-            vec[0] += -u;
-            break;
-        case _0p0:
-            vec[1] +=  u;
-            break;
-        case _0m0:
-            vec[1] += -u;
-            break;
-        case _00p:
-            vec[2] +=  u;
-            break;
-        case _00m:
-            vec[2] += -u;
-            break;
-        //
-        case _pp0:
-            vec[0] += sqrt_2*u;
-            vec[1] += sqrt_2*u;
-            break;
-        case _pm0:
-            vec[0] += sqrt_2*u;
-            vec[1] -= sqrt_2*u;
-            break;
-        case _p0p:
-
-            break;
-        case _p0m:
-
-            break;
-        case _0pp:
-
-            break;
-        case _0pm:
-
-            break;
-        case _mp0:
-
-            break;
-        case _mm0:
-
-            break;
-        case _m0p:
-
-            break;
-        case _m0m:
-
-            break;
-        case _0mp:
-
-            break;
-        case _0mm:
-
-            break;
-
-        default:
-            std::cout << "direction not recognized in collision.cpp::buildVecFromDirection" << std::endl;
-            break;
-    }*/
-
 }
 
 int del(int i, int j){
-    /*if (i==j)
-        return 1;
-    else
-        return 0;*/
-    return (i==j)?1:0;
+    return (i==j) ? 1:0;
 }
 
 bdt w_lq_func(int q){
@@ -166,11 +95,11 @@ bdt* collision::f_eq(bdt flow[]){
 
     //std::cout << rho << std::endl;
 
-    for (int q=(DIRECTION_FLOW_SIZE-1); q>0; q--){
-        buildVecFromDirection(flow[q]/*/rho*/, q, u);
+    for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
+        buildVecFromDirection(flow[q], q, u);
     }
 
-    for (int q=(DIRECTION_FLOW_SIZE-1); q>0; q--){
+    for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
 
         retValue[q] = 1;
 
@@ -187,7 +116,7 @@ bdt* collision::f_eq(bdt flow[]){
 
                 retValue[q] -= (u[i]*u[j]*del(i, j))/(2.f*c_s*c_s);
 
-                //if (retValue[q] != 1) std::cout << "q: " << q << ", i:" << i << ", j:" << j << ", retValue[q]:" << retValue[q] << std::endl;
+                if (retValue[q] != 1) std::cout << "q: " << q << ", i:" << i << ", j:" << j << ", retValue[q]:" << retValue[q] << std::endl;
             }
         }
 
@@ -198,7 +127,7 @@ bdt* collision::f_eq(bdt flow[]){
         //}
     }
 
-    retValue[0] = 0;
+    //retValue[0] = 0;
 
     return retValue;
 }

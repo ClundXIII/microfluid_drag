@@ -21,8 +21,9 @@ cell::cell(fluid_simulation *u){
         neighbour[q] = 0;
     }
 
-    //inbound_flow[0] = 0;
-    for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
+    inbound_flow[0] = 0;
+    outbound_flow[0] = 1;
+    for (int q=1; q<DIRECTION_FLOW_SIZE; q++){
         inbound_flow[q] = 0;
         outbound_flow[q] = 0;
     }
@@ -36,22 +37,24 @@ void cell::draw(){
         std::cout << "last pressure: " << last_pressure << std::endl;
         #if ( _USE_VEMC2 == 1 )
             glColor3f(1.f, 0.f, 0.f);
-            vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((last_pressure)*100.f));
+            //vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((last_pressure-1)*1.f));
+            vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, abs((inbound_flow[0]-1)*5));
             glColor3f(1.f, 1.f, 1.f);
         #endif
 
     }
     else {
         #if ( _USE_VEMC2 == 1 )
-            vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((last_pressure)*100.f));
+            //vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((last_pressure-1)*1.f));
+            vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, abs((inbound_flow[0]-1)*5));
         #endif
     }
 }
 
 int cell::add_neighbour(direction where, cell *neighbour){
 
-    if (where > DIRECTION_FLOW_SIZE) return -1;
-    if (where < 0) return -2;
+    if (where > DIRECTION_FLOW_SIZE) { std::cout << "error -1" << std::endl; return -1;}
+    if (where < 0) { std::cout << "error -2" << std::endl; return -2;}
 
     this->neighbour[where] = neighbour;
 
@@ -74,7 +77,7 @@ void cell::collide(){
     bdt *f_eq_flow;
     f_eq_flow = collision::f_eq(inbound_flow);
 
-    for (int q=1; q<DIRECTION_FLOW_SIZE; q++){
+    for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
         outbound_flow[q] += inbound_flow[q] + omega * (f_eq_flow[q] - inbound_flow[q]);
     }
 
@@ -89,7 +92,7 @@ void cell::collide(){
 
     last_pressure = 0;
 
-    for (int q=1; q<DIRECTION_FLOW_SIZE; q++){
+    for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
         last_pressure += outbound_flow[q];
     }
 
@@ -103,7 +106,7 @@ void cell::apply_boundary(){
 
             //no break here because we need to do the 6 dirs anyway
         case _D3Q7:
-
+            /*
             if (!neighbour[_m00]) {
                     outbound_flow[_p00] += outbound_flow[_m00];
                     outbound_flow[_m00] = 0;
@@ -128,7 +131,7 @@ void cell::apply_boundary(){
                     outbound_flow[_00m] += outbound_flow[_00p];
                     outbound_flow[_00p] = 0;
             }
-
+*/
             break;
 
         default:
@@ -170,6 +173,9 @@ void cell::stream(){
             if (neighbour[_0p0]) inbound_flow[_0m0] = neighbour[_0p0]->outbound_flow[_0m0];
             if (neighbour[_00m]) inbound_flow[_00p] = neighbour[_00m]->outbound_flow[_00p];
             if (neighbour[_00p]) inbound_flow[_00m] = neighbour[_00p]->outbound_flow[_00m];
+
+            //if (neighbour[_000]) inbound_flow[_000] = neighbour[_000]->outbound_flow[_000]; //aka this
+            inbound_flow[_000] = outbound_flow[_000];
 
             break;
 
