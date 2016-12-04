@@ -65,9 +65,11 @@ int cell::add_neighbour(direction where, cell *neighbour){
 void cell::debug_info(){
     std::cout << pos_x << " " << pos_y << " " << pos_z << std::endl;
     for (int i = 0; i<DIRECTION_FLOW_SIZE; i++){
+        //if (!neighbour[i]) {
         std::cout << "  >" << i << " :" << neighbour[i];
         if (neighbour[i]) std::cout << ":" << neighbour[i]->pos_x << ":" << neighbour[i]->pos_y << ":" << neighbour[i]->pos_z;
         std::cout  << std::endl;
+        //}
     }
 }
 
@@ -179,17 +181,15 @@ void cell::stream(){
     }
 }
 
-int a=0;
 void cell::reset_outbound(){
+
+    for (unsigned i=0; i<DIRECTION_FLOW_SIZE; i++){
+        std::cout << i << ":" << outbound_flow[i] << std::endl;
+    }
+
     for (unsigned i=0; i<DIRECTION_FLOW_SIZE; i++){
         outbound_flow[i] = 0;
     }
-
-    if ((pos_x==0)&&(pos_y==0)&&(pos_z==0)){
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        if (!a) {std::cout << ">";std::cin >> a;}
-    }
-
 }
 
 cell::~cell(){

@@ -16,17 +16,28 @@ lattice_boltzmann::lattice_boltzmann(fluid_simulation *u){
 void lattice_boltzmann::tick(){
     for (int i=0; i<fluidSim->cellArraySize; i++){
         fluidSim->cellArray[i]->collide();
-        fluidSim->cellArray[i]->apply_boundary();
+        //fluidSim->cellArray[i]->apply_boundary();
     }
 }
 
+int a=0;
 void lattice_boltzmann::upValues(){
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    if (!a) {std::cout << ">";std::cin >> a;}
+
     for (int i=0; i<fluidSim->cellArraySize; i++){
         fluidSim->cellArray[i]->stream();
     }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    if (!a) {std::cout << ">";std::cin >> a;}
+
     for (int i=0; i<fluidSim->cellArraySize; i++){
         fluidSim->cellArray[i]->reset_outbound();
     }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    if (!a) {std::cout << ">";std::cin >> a;}
 }
 
 void lattice_boltzmann::setCellList(cell **allCells){
