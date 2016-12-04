@@ -7,7 +7,7 @@ set(HEADERS
     ${PROJECT_SOURCE_DIR}/src/define.h
     ${PROJECT_SOURCE_DIR}/src/cell.h
     ${PROJECT_SOURCE_DIR}/src/collision.h
-    ${PROJECT_SOURCE_DIR}/src/flow.h
+    ${PROJECT_SOURCE_DIR}/src/lattice_boltzmann.h
     ${PROJECT_SOURCE_DIR}/src/fluid_simulation.h
 )
 
@@ -16,7 +16,7 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/main.cpp
     ${PROJECT_SOURCE_DIR}/src/cell.cpp
     ${PROJECT_SOURCE_DIR}/src/collision.cpp
-    ${PROJECT_SOURCE_DIR}/src/flow.cpp
+    ${PROJECT_SOURCE_DIR}/src/lattice_boltzmann.cpp
     ${PROJECT_SOURCE_DIR}/src/fluid_simulation.cpp
 )
 

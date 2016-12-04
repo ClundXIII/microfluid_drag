@@ -11,22 +11,8 @@
 #define _W_1 ((bdt)1/(bdt)18)
 #define _W_2 ((bdt)1/(bdt)36)
 
-#if ( _USE_VEMC2 == 1 )
-collision::collision(fluid_simulation *u) : effect(u){
-#else
 collision::collision(fluid_simulation *u){
-#endif
     fluidSim = u;
-}
-
-void collision::tick(){
-    for (int i=0; i<fluidSim->cellArraySize; i++){
-        fluidSim->cellArray[i]->collide();
-        fluidSim->cellArray[i]->apply_boundary();
-    }
-}
-
-void collision::upValues(){
 }
 
 void collision::setCellList(Cell **allCells){

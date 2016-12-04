@@ -1,0 +1,39 @@
+#include "lattice_boltzmann.h"
+
+#include "cell.h"
+#include "fluid_simulation.h"
+
+#include <iostream>
+
+#if ( _USE_VEMC2 == 1 )
+lattice_boltzmann::lattice_boltzmann(fluid_simulation *u) : effect(u){
+#else
+lattice_boltzmann::lattice_boltzmann(fluid_simulation *u){
+#endif
+    fluidSim = u;
+}
+
+void lattice_boltzmann::tick(){
+    for (int i=0; i<fluidSim->cellArraySize; i++){
+        fluidSim->cellArray[i]->collide();
+        fluidSim->cellArray[i]->apply_boundary();
+    }
+}
+
+void lattice_boltzmann::upValues(){
+    for (int i=0; i<fluidSim->cellArraySize; i++){
+        fluidSim->cellArray[i]->stream();
+    }
+    for (int i=0; i<fluidSim->cellArraySize; i++){
+        fluidSim->cellArray[i]->reset_outbound();
+    }
+}
+
+void lattice_boltzmann::setCellList(cell **allCells){
+    this->allCells = allCells;
+}
+
+lattice_boltzmann::~lattice_boltzmann()
+{
+    //dtor
+}

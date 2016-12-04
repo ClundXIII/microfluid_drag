@@ -1,5 +1,5 @@
-#ifndef FLOW_H
-#define FLOW_H
+#ifndef LATTICE_BOLTZMANN_H
+#define LATTICE_BOLTZMANN_H
 
 #include "define.h"
 
@@ -11,15 +11,15 @@ class cell;
 class fluid_simulation;
 
 #if ( _USE_VEMC2 == 1 )
-class flow : public vemc2::simulation::effect::effect{
+class lattice_boltzmann : public vemc2::simulation::effect::effect{
 #else
-class flow : public effect{
+class lattice_boltzmann : public effect{
 #endif
     public:
         #if ( _USE_VEMC2 == 1 )
-            flow(fluid_simulation *u);
+            lattice_boltzmann(fluid_simulation *u);
         #else
-            flow(fluid_simulation *u);
+            lattice_boltzmann(fluid_simulation *u);
         #endif
 
         void tick();
@@ -28,7 +28,7 @@ class flow : public effect{
 
         void setCellList(cell **allCells);
 
-        virtual ~flow();
+        virtual ~lattice_boltzmann();
     protected:
     private:
 
@@ -36,4 +36,6 @@ class flow : public effect{
         cell **allCells;
 };
 
-#endif // FLOW_H
+
+
+#endif // LATTICE_BOLTZMANN_H

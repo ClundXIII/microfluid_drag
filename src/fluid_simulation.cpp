@@ -1,7 +1,7 @@
 #include "fluid_simulation.h"
 #include "cell.h"
 #include "collision.h"
-#include "flow.h"
+#include "lattice_boltzmann.h"
 
 #include <iostream>
 
@@ -124,12 +124,11 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z){
 
 void fluid_simulation::setupEffects(){
 
-    effectArray = new effect*[3];
-    effectCount = 2;
+    effectArray = new effect*[2];
+    effectCount = 1;
 
-    effectArray[0] = new collision(this);
-    effectArray[1] = new flow(this);
-    effectArray[2] = 0;
+    effectArray[0] = new lattice_boltzmann(this);
+    effectArray[1] = 0;
 
 }
 

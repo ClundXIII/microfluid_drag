@@ -10,18 +10,10 @@
 class Cell;
 class fluid_simulation;
 
-#if ( _USE_VEMC2 == 1 )
-class collision : public vemc2::simulation::effect::effect{
-#else
-class collision : public effect{
-#endif
+class collision {
     public:
 
         collision(fluid_simulation *u);
-
-        void tick();
-
-        void upValues();
 
         void setCellList(Cell **allCells);
 
