@@ -21,8 +21,8 @@ cell::cell(fluid_simulation *u){
         neighbour[q] = 0;
     }
 
-    inbound_flow[0] = 0;
-    outbound_flow[0] = 1;
+    inbound_flow[0] = 1;
+    outbound_flow[0] = 0;
     for (int q=1; q<DIRECTION_FLOW_SIZE; q++){
         inbound_flow[q] = 0;
         outbound_flow[q] = 0;
@@ -33,20 +33,21 @@ void cell::draw(){
 
     //if (last_pressure != 0){std::cout << "last pressure: " << last_pressure << std::endl;}
 
+    //if ((inbound_flow[0]-1) < 0){
     if (last_pressure < 0){
-        std::cout << "last pressure: " << last_pressure << std::endl;
+        //std::cout << "last pressure: " << last_pressure << std::endl;
         #if ( _USE_VEMC2 == 1 )
             glColor3f(1.f, 0.f, 0.f);
-            //vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((last_pressure-1)*1.f));
-            vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, abs((inbound_flow[0]-1)*5));
+            vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((last_pressure-1)*10.f));
+            //vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((inbound_flow[0]-1)));
             glColor3f(1.f, 1.f, 1.f);
         #endif
 
     }
     else {
         #if ( _USE_VEMC2 == 1 )
-            //vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((last_pressure-1)*1.f));
-            vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, abs((inbound_flow[0]-1)*5));
+            vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((last_pressure-1)*10.f));
+            //vemc2::graphic::draw(motherU, pos_x*3, pos_y*3, pos_z*3, 0.1+abs((inbound_flow[0]-1)));
         #endif
     }
 }
@@ -70,7 +71,7 @@ void cell::debug_info(){
     }
 }
 
-bdt omega = 2.f/3.f;
+constexpr bdt omega = 2.f/3.f;
 
 void cell::collide(){
 
@@ -78,15 +79,8 @@ void cell::collide(){
     f_eq_flow = collision::f_eq(inbound_flow);
 
     for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
-        outbound_flow[q] += inbound_flow[q] + omega * (f_eq_flow[q] - inbound_flow[q]);
+        outbound_flow[q] = inbound_flow[q] + omega * (f_eq_flow[q] - inbound_flow[q]);
     }
-
-    /*outbound_flow[_p00] += inbound_flow[_p00] + omega * (f_eq_flow[_p00] - inbound_flow[_p00]);
-    outbound_flow[_m00] += inbound_flow[_m00] + omega * (f_eq_flow[_m00] - inbound_flow[_m00]);
-    outbound_flow[_0p0] += inbound_flow[_0p0] + omega * (f_eq_flow[_0p0] - inbound_flow[_0p0]);
-    outbound_flow[_0m0] += inbound_flow[_0m0] + omega * (f_eq_flow[_0m0] - inbound_flow[_0m0]);
-    outbound_flow[_00p] += inbound_flow[_00p] + omega * (f_eq_flow[_00p] - inbound_flow[_00p]);
-    outbound_flow[_00m] += inbound_flow[_00m] + omega * (f_eq_flow[_00m] - inbound_flow[_00p]);*/
 
     delete[](f_eq_flow);
 
@@ -191,7 +185,7 @@ void cell::reset_outbound(){
         outbound_flow[i] = 0;
     }
 
-    if ((pos_x==5)&&(pos_y==5)&&(pos_z==5)){
+    if ((pos_x==0)&&(pos_y==0)&&(pos_z==0)){
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         if (!a) {std::cout << ">";std::cin >> a;}
     }

@@ -24,7 +24,7 @@ fluid_simulation::fluid_simulation(){
     //ctor
 }
 
-void fluid_simulation::createCellGrid(unsigned size_x, unsigned size_y, unsigned size_z){
+void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z){
 
     this->size_x = size_x;
     this->size_y = size_y;
@@ -98,6 +98,9 @@ void fluid_simulation::createCellGrid(unsigned size_x, unsigned size_y, unsigned
         }
     }
 
+    //getCellByXYZ(0, 0, 0)->inbound_flow[_00p] = 0.3;
+
+
     for (int i=0; i<(size_x); i++){
         for (int j=0; j<(size_y); j++){
             getCellByXYZ(i, j, 1)->inbound_flow[_00p] = 0.3;
@@ -145,7 +148,7 @@ void fluid_simulation::run(bdt duration){
 }
 #endif
 
-int fluid_simulation::getArrayPosByXYZ(unsigned x, unsigned y, unsigned z){
+int fluid_simulation::getArrayPosByXYZ(int x, int y, int z){
 
     if (x >= size_x)
         return -1;
@@ -156,6 +159,16 @@ int fluid_simulation::getArrayPosByXYZ(unsigned x, unsigned y, unsigned z){
     if (z >= size_z)
         return -3;
 
+
+    if (x < 0)
+        return -4;
+
+    if (y < 0)
+        return -5;
+
+    if (z < 0)
+        return -6;
+
     int retSum = 0;
 
     retSum += x * size_y * size_z;
@@ -165,7 +178,28 @@ int fluid_simulation::getArrayPosByXYZ(unsigned x, unsigned y, unsigned z){
     return retSum;
 }
 
-cell* fluid_simulation::getCellByXYZ(unsigned x, unsigned y, unsigned z){
+cell* fluid_simulation::getCellByXYZ(int x, int y, int z){
+    if (use_loop_boundary){
+        if (x >= size_x)
+            x -= size_x;
+
+        if (y >= size_y)
+            y -= size_y;
+
+        if (z >= size_z)
+            z -= size_z;
+
+
+        if (x < 0)
+            x += size_x;
+
+        if (y < 0)
+            y += size_y;
+
+        if (z < 0)
+            z += size_z;
+    }
+
     int pos = getArrayPosByXYZ(x, y, z);
 
     if (pos < 0) return 0;

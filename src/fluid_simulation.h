@@ -19,7 +19,7 @@ class fluid_simulation{
     public:
         fluid_simulation();
 
-        void createCellGrid(unsigned size_x, unsigned size_y, unsigned size_z);
+        void createCellGrid(int size_x, int size_y, int size_z);
 
         void setupEffects();
 
@@ -39,15 +39,17 @@ class fluid_simulation{
 
     protected:
 
-        int getArrayPosByXYZ(unsigned x, unsigned y, unsigned z);
-        cell* getCellByXYZ(unsigned x, unsigned y, unsigned z);
+        int getArrayPosByXYZ(int x, int y, int z);
+        cell* getCellByXYZ(int x, int y, int z);
 
-        unsigned size_x=0, size_y=0, size_z=0;
+        int size_x=0, size_y=0, size_z=0;
 
         #if !( _USE_VEMC2 == 1 )
         effect **effectArray;
         int      effectCount;
         #endif
+
+        bool use_loop_boundary=true;
 
     private:
 };

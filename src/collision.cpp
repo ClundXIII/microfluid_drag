@@ -116,7 +116,7 @@ bdt* collision::f_eq(bdt flow[]){
 
                 retValue[q] -= (u[i]*u[j]*del(i, j))/(2.f*c_s*c_s);
 
-                if (retValue[q] != 1) std::cout << "q: " << q << ", i:" << i << ", j:" << j << ", retValue[q]:" << retValue[q] << std::endl;
+                //if ((retValue[q] != 1)&&(q == 0)) std::cout << "q: " << q << ", i:" << i << ", j:" << j << ", retValue[q]:" << retValue[q] << std::endl;
             }
         }
 

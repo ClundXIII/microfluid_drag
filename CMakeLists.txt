@@ -20,7 +20,7 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/fluid_simulation.cpp
 )
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -g3 -fsanitize=address")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -g3 -fsanitize=address -Wall -pedantic -Wextra")
 
 SET(GCC_COVERAGE_LINK_FLAGS    "-pthread")
 
