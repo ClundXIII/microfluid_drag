@@ -49,7 +49,7 @@ class fluid_simulation{
         int      effectCount;
         #endif
 
-        bool use_loop_boundary=true;
+        bool use_loop_boundary=false;
 
     private:
 };

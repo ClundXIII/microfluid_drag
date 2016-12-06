@@ -31,8 +31,6 @@ class cell{
         void apply_boundary();
         void stream();
 
-        void reset_outbound();
-
         virtual ~cell();
 
         bdt  inbound_flow[DIRECTION_FLOW_SIZE];

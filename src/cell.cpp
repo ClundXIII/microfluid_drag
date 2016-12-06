@@ -181,17 +181,6 @@ void cell::stream(){
     }
 }
 
-void cell::reset_outbound(){
-
-    for (unsigned i=0; i<DIRECTION_FLOW_SIZE; i++){
-        std::cout << i << ":" << outbound_flow[i] << std::endl;
-    }
-
-    for (unsigned i=0; i<DIRECTION_FLOW_SIZE; i++){
-        outbound_flow[i] = 0;
-    }
-}
-
 cell::~cell(){
     //dtor
 }

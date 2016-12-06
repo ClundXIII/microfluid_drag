@@ -28,14 +28,6 @@ void lattice_boltzmann::upValues(){
     for (int i=0; i<fluidSim->cellArraySize; i++){
         fluidSim->cellArray[i]->stream();
     }
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    if (!a) {std::cout << ">";std::cin >> a;}
-
-    for (int i=0; i<fluidSim->cellArraySize; i++){
-        fluidSim->cellArray[i]->reset_outbound();
-    }
-
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     if (!a) {std::cout << ">";std::cin >> a;}
 }
