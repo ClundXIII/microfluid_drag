@@ -3,6 +3,8 @@
 
 #include "define.h"
 
+#include "cell.h"
+
 #include <vector>
 
 #if ( _USE_VEMC2 == 1 )
@@ -19,7 +21,7 @@ class fluid_simulation{
     public:
         fluid_simulation();
 
-        void createCellGrid(int size_x, int size_y, int size_z);
+        void createCellGrid(int size_x, int size_y, int size_z, cell_type typets);
 
         void setupEffects();
 

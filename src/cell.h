@@ -9,6 +9,12 @@
 
 class fluid_simulation;
 
+enum cell_type {
+    boundary_fluid = 0,
+    boundary_noslip,
+    boundary_freeslip
+};
+
 #if ( _USE_VEMC2 == 1 )
 class cell : public vemc2::simulation::drawable{
 #else
@@ -35,6 +41,8 @@ class cell{
 
         bdt  inbound_flow[DIRECTION_FLOW_SIZE];
         bdt outbound_flow[DIRECTION_FLOW_SIZE];
+
+        cell_type type = boundary_fluid;
     protected:
 
         bdt last_pressure=0;
@@ -44,6 +52,7 @@ class cell{
         cell **neighbour;
 
         fluid_simulation* motherU;
+
 };
 
 #endif // CELL_H

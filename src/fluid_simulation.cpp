@@ -24,7 +24,18 @@ fluid_simulation::fluid_simulation(){
     //ctor
 }
 
-void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z){
+void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_type typets){
+
+    switch (typets){
+        case boundary_noslip:
+        case boundary_freeslip:
+            size_x += 2;
+            size_y += 2;
+            size_z += 2;
+          break;
+        default:
+          break;
+    }
 
     this->size_x = size_x;
     this->size_y = size_y;
@@ -89,7 +100,6 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z){
                         getCellByXYZ(i, j, k)->add_neighbour(_000, getCellByXYZ(i, j, k));
                         break;
 
-
                     default:
                         out << "wrong flow model!" << out_endl;
                         break;
@@ -98,27 +108,42 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z){
         }
     }
 
-    //getCellByXYZ(0, 0, 0)->inbound_flow[_00p] = 0.3;
 
+            for (int i=0; i<(size_x); i++){
+                for (int j=0; j<(size_y); j++){
+                    getCellByXYZ(i, j, 1)->inbound_flow[_00p] = 0.5;
+                    getCellByXYZ(i, j, 1)->inbound_flow[_00m] = 0.5;
+                }
+            }
 
-    for (int i=0; i<(size_x); i++){
-        for (int j=0; j<(size_y); j++){
-            getCellByXYZ(i, j, 1)->inbound_flow[_00p] = 0.3;
-        }
-    }
-/*
-    for (int i=0; i<size_x; i++){
-        for (int j=0; j<size_y; j++){
-            getCellByXYZ(i, 0, j)->inbound_flow[_0m0] = 0.3;
-        }
+    switch (typets){
+        case boundary_noslip:
+        case boundary_freeslip:
+
+            for (int i=0; i<(size_x); i++){
+                for (int j=0; j<(size_y); j++){
+                    getCellByXYZ(i, j, 0)->type = typets;
+                    getCellByXYZ(i, j, size_z-1)->type = typets;
+                }
+            }
+            for (int i=0; i<size_x; i++){
+                for (int j=0; j<size_z; j++){
+                    getCellByXYZ(i, 0, j)->type = typets;
+                    getCellByXYZ(i, size_y-1, j)->type = typets;
+                }
+            }
+
+            for (int i=0; i<size_y; i++){
+                for (int j=0; j<size_z; j++){
+                    getCellByXYZ(0, i, j)->type = typets;
+                    getCellByXYZ(size_x-1, i, j)->type = typets;
+                }
+            }
+          break;
+        default:
+          break;
     }
 
-    for (int i=0; i<size_x; i++){
-        for (int j=0; j<size_y; j++){
-            getCellByXYZ(0, i, j)->inbound_flow[_m00] = 0.3;
-        }
-    }
-*/
     out << "crated " << cell_pos << " Cells!" << out_endl;
 }
 

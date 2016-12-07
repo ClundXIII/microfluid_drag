@@ -49,10 +49,10 @@ int main(int argc, const char* argv[]){
         #endif
 
         out << "setting up cells ..." << out_endl;
-        u->createCellGrid(3, 3, 3);
+        u->createCellGrid(3, 3, 10, boundary_noslip);
         u->setupEffects();
 
-        u->print_debug();
+        //u->print_debug();
 
         #if ( _USE_VEMC2 == 1 )
         u->simulationThread->time_to_stop = -1;
