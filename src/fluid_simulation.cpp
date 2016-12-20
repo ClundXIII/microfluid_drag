@@ -15,7 +15,7 @@
 
 
 #if ( _USE_VEMC2 == 1 )
-fluid_simulation::fluid_simulation() : vemc2::universe(0){
+fluid_simulation::fluid_simulation() : vemc2::universe(0, 80000, 1, 1, 1){
     settings.sim.dt = 1;
     unpause();
 #else
@@ -109,12 +109,12 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_t
     }
 
 
-            /*for (int i=1; i<(size_x-1); i++){
+            for (int i=1; i<(size_x-1); i++){
                 for (int j=1; j<(size_y-1); j++){
-                    getCellByXYZ(i, j, 1)->outbound_flow[_00p] = 0.5;
-                    //getCellByXYZ(i, j, 1)->outbound_flow[_00m] = 0.5;
+                    getCellByXYZ(i, j, 1)->outbound_flow[_00p] = 0.1;
+                    //getCellByXYZ(i, j, 1)->outbound_flow[_00m] = 0.1;
                 }
-            }*/
+            }
 
     switch (typets){
         case boundary_noslip:
@@ -124,7 +124,7 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_t
                 for (int j=0; j<(size_y); j++){
                     if (create_source_sink){
                         getCellByXYZ(i, j, 0)->type = source;
-                        getCellByXYZ(i, j, 0)->outbound_flow[_00p] = 0.5;
+                        getCellByXYZ(i, j, 0)->outbound_flow[_00p] = 0.1;
                         getCellByXYZ(i, j, size_z-1)->type = sink;
                     }
                     else {

@@ -21,6 +21,8 @@ class collision {
 
         //static std::vector<bdt> getFlowVector(bdt flow[]);
 
+        static void buildVecFromFlow(bdt *outbound_flow, bdt u[]);
+
         virtual ~collision();
     protected:
     private:

@@ -65,6 +65,12 @@ bdt w_lq_func(int q){
     return 0;
 }
 
+void collision::buildVecFromFlow(bdt *outbound_flow, bdt u[]){
+    for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
+        buildVecFromDirection(outbound_flow[q], q, u);
+    }
+}
+
 bdt* collision::f_eq(bdt flow[]){
 
     bdt rho=0;

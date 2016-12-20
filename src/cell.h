@@ -45,6 +45,8 @@ class cell{
         bdt outbound_flow[DIRECTION_FLOW_SIZE];
 
         cell_type type = fluid;
+
+        void printFlowVec();
     protected:
 
         bdt last_pressure=0;
