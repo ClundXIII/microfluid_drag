@@ -23,6 +23,9 @@ void lattice_boltzmann::tick(){
         fluidSim->cellArray[i]->apply_boundary();
     }
 
+    this->fluidSim->getCellByXYZ(2,2,5)->debug_info();
+    this->fluidSim->getCellByXYZ(2,2,11)->debug_info();
+
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     if (!a) {std::cout << "stream>";std::cin >> a;}
 
@@ -30,12 +33,18 @@ void lattice_boltzmann::tick(){
         fluidSim->cellArray[i]->stream();
     }
 
+    this->fluidSim->getCellByXYZ(2,2,5)->debug_info();
+    this->fluidSim->getCellByXYZ(2,2,11)->debug_info();
+
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     if (!a) {std::cout << "collide>";std::cin >> a;}
 
     for (int i=0; i<fluidSim->cellArraySize; i++){
         fluidSim->cellArray[i]->collide();
     }
+
+    this->fluidSim->getCellByXYZ(2,2,5)->debug_info();
+    this->fluidSim->getCellByXYZ(2,2,11)->debug_info();
 }
 
 void lattice_boltzmann::upValues(){

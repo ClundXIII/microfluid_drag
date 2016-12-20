@@ -59,9 +59,9 @@ int del(int i, int j){
 }
 
 bdt w_lq_func(int q){
-    if (q==_000) return 1.d/3.d;
-    if ((q>=1)          && (q<_size_D3Q7 )) return 1.d/18.d;
-    if ((q>=_size_D3Q7) && (q<_size_D3Q19)) return 1.d/36.d;
+    if (q==_000) return 1.f/3.f;
+    if ((q>=1)          && (q<_size_D3Q7 )) return 1.f/18.f;
+    if ((q>=_size_D3Q7) && (q<_size_D3Q19)) return 1.f/36.f;
     return 0;
 }
 
@@ -79,11 +79,11 @@ bdt* collision::f_eq(bdt flow[]){
 
     bdt u[3] = {0, 0, 0};
 
-    //std::cout << rho << std::endl;
-
     for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
         buildVecFromDirection(flow[q], q, u);
     }
+
+    //std::cout << "u: " << u[0] << ":" << u[1] << ":" << u[2] << std::endl;
 
     for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
 
@@ -94,9 +94,6 @@ bdt* collision::f_eq(bdt flow[]){
             retValue[q] += (u[i]*_v[q][i]) / (c_s*c_s);
 
             for (int j=0; j<3; j++){
-
-                /*retValue[q] += ( (u[i]*u[j])/(2.f*c_s*c_s) ) *
-                            ( (_v[q][i]*_v[q][j]) / (c_s*c_s) - del(i, j) );*/
 
                 retValue[q] += (u[i]*u[j]*_v[q][i]*_v[q][j])/(2.f*c_s*c_s*c_s*c_s);
 
@@ -113,7 +110,7 @@ bdt* collision::f_eq(bdt flow[]){
         //}
     }
 
-    //retValue[0] = 0;
+    //std::cout << "0:" << retValue[0] << std::endl;
 
     return retValue;
 }

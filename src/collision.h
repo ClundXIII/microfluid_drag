@@ -19,6 +19,8 @@ class collision {
 
         static bdt* f_eq(bdt flow[]);
 
+        //static std::vector<bdt> getFlowVector(bdt flow[]);
+
         virtual ~collision();
     protected:
     private:

@@ -24,7 +24,7 @@ fluid_simulation::fluid_simulation(){
     //ctor
 }
 
-void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_type typets){
+void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_type typets, bool create_source_sink){
 
     switch (typets){
         case boundary_noslip:
@@ -109,12 +109,12 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_t
     }
 
 
-            for (int i=0; i<(size_x); i++){
-                for (int j=0; j<(size_y); j++){
-                    getCellByXYZ(i, j, 1)->inbound_flow[_00p] = 0.5;
-                    getCellByXYZ(i, j, 1)->inbound_flow[_00m] = 0.5;
+            /*for (int i=1; i<(size_x-1); i++){
+                for (int j=1; j<(size_y-1); j++){
+                    getCellByXYZ(i, j, 1)->outbound_flow[_00p] = 0.5;
+                    //getCellByXYZ(i, j, 1)->outbound_flow[_00m] = 0.5;
                 }
-            }
+            }*/
 
     switch (typets){
         case boundary_noslip:
@@ -122,8 +122,15 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_t
 
             for (int i=0; i<(size_x); i++){
                 for (int j=0; j<(size_y); j++){
-                    getCellByXYZ(i, j, 0)->type = typets;
-                    getCellByXYZ(i, j, size_z-1)->type = typets;
+                    if (create_source_sink){
+                        getCellByXYZ(i, j, 0)->type = source;
+                        getCellByXYZ(i, j, 0)->outbound_flow[_00p] = 0.5;
+                        getCellByXYZ(i, j, size_z-1)->type = sink;
+                    }
+                    else {
+                        getCellByXYZ(i, j, 0)->type = typets;
+                        getCellByXYZ(i, j, size_z-1)->type = typets;
+                    }
                 }
             }
             for (int i=0; i<size_x; i++){
@@ -164,10 +171,8 @@ void fluid_simulation::unpause(){}
 void fluid_simulation::run(bdt duration){
     for (int i=0; i<duration; i++){
         effectArray[0]->tick();
-        effectArray[1]->tick();
 
         effectArray[0]->upValues();
-        effectArray[1]->upValues();
     }
 }
 #endif

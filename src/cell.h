@@ -10,9 +10,11 @@
 class fluid_simulation;
 
 enum cell_type {
-    boundary_fluid = 0,
+    fluid = 0,
     boundary_noslip,
-    boundary_freeslip
+    boundary_freeslip,
+    source,
+    sink
 };
 
 #if ( _USE_VEMC2 == 1 )
@@ -42,7 +44,7 @@ class cell{
         bdt  inbound_flow[DIRECTION_FLOW_SIZE];
         bdt outbound_flow[DIRECTION_FLOW_SIZE];
 
-        cell_type type = boundary_fluid;
+        cell_type type = fluid;
     protected:
 
         bdt last_pressure=0;

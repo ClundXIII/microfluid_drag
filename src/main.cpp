@@ -49,7 +49,7 @@ int main(int argc, const char* argv[]){
         #endif
 
         out << "setting up cells ..." << out_endl;
-        u->createCellGrid(3, 3, 10, boundary_noslip);
+        u->createCellGrid(4, 4, 12, boundary_noslip, true);
         u->setupEffects();
 
         //u->print_debug();
