@@ -38,7 +38,11 @@ int main(int argc, const char* argv[]){
             //if (argList.at(i) == "")
         }
 
-        fluid_simulation *u = new fluid_simulation();
+        int x_size=10,
+            y_size=10,
+            z_size=200;
+
+        fluid_simulation *u = new fluid_simulation((x_size+2)*(y_size+2)*(z_size+2)+10);
 
 
         #if ( _USE_VEMC2 == 1 )
@@ -49,7 +53,7 @@ int main(int argc, const char* argv[]){
         #endif
 
         out << "setting up cells ..." << out_endl;
-        u->createCellGrid(5, 5, 20, boundary_noslip, false);
+        u->createCellGrid(x_size, y_size, z_size, boundary_noslip, true);
         u->setupEffects();
 
         //u->print_debug();
@@ -60,7 +64,9 @@ int main(int argc, const char* argv[]){
         u->unpause();
 
         out << "attach universe ..." << out_endl;
-        g->attachUniverse(u);
+        //g->attachUniverse(u);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(50000));
 
         #else
 

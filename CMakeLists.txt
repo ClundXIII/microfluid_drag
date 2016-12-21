@@ -20,9 +20,9 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/fluid_simulation.cpp
 )
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -g3 -fsanitize=address -Wall -pedantic -Wextra")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -g3 -fsanitize=address -Wall -pedantic -Wextra -fopenmp")
 
-SET(GCC_COVERAGE_LINK_FLAGS    "-pthread")
+SET(GCC_COVERAGE_LINK_FLAGS    "-pthread -fopenmp")
 
 SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS} -fsanitize=address -g")
 

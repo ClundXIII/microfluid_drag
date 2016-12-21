@@ -15,7 +15,9 @@
 
 
 #if ( _USE_VEMC2 == 1 )
-fluid_simulation::fluid_simulation() : vemc2::universe(0, 80000, 1, 1, 1){
+fluid_simulation::fluid_simulation(int cellcount) :
+    vemc2::universe(0, cellcount, 1, 1, 1)
+    {
     settings.sim.dt = 1;
     unpause();
 #else
@@ -64,8 +66,11 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_t
         }
     }
 
+    #pragma omp parallel for
     for (int i=0; i<size_x; i++){
+        #pragma omp parallel for
         for (int j=0; j<size_y; j++){
+            #pragma omp parallel for
             for (int k=0; k<size_z; k++){
                 switch (DIRECTION_FLOW_MODEL){
 

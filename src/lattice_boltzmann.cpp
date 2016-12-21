@@ -19,6 +19,7 @@ void lattice_boltzmann::tick(){
     //std::this_thread::sleep_for(std::chrono::milliseconds(100));
     if (!a) {std::cout << "apply boundary>";std::cin >> a;}
 
+    #pragma omp parallel for
     for (int i=0; i<fluidSim->cellArraySize; i++){
         fluidSim->cellArray[i]->apply_boundary();
     }
@@ -32,6 +33,7 @@ void lattice_boltzmann::tick(){
     //std::this_thread::sleep_for(std::chrono::milliseconds(100));
     if (!a) {std::cout << "stream>";std::cin >> a;}
 
+    #pragma omp parallel for
     for (int i=0; i<fluidSim->cellArraySize; i++){
         fluidSim->cellArray[i]->stream();
     }
@@ -45,6 +47,7 @@ void lattice_boltzmann::tick(){
     //std::this_thread::sleep_for(std::chrono::milliseconds(100));
     if (!a) {std::cout << "collide>";std::cin >> a;}
 
+    #pragma omp parallel for
     for (int i=0; i<fluidSim->cellArraySize; i++){
         fluidSim->cellArray[i]->collide();
     }

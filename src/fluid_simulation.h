@@ -19,7 +19,7 @@ class fluid_simulation : public vemc2::universe{
 class fluid_simulation{
 #endif // _USE_VEMC2
     public:
-        fluid_simulation();
+        fluid_simulation(int cellcount);
 
         void createCellGrid(int size_x, int size_y, int size_z, cell_type typets, bool create_source_sink);
 
