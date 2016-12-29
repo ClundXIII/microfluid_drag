@@ -116,7 +116,7 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_t
 
             for (int i=1; i<(size_x-1); i++){
                 for (int j=1; j<(size_y-1); j++){
-                    getCellByXYZ(i, j, 1)->outbound_flow[_00p] = 0.1;
+                    getCellByXYZ(i, j, 1)->outbound_flow[_00p] = 0.5;
                     //getCellByXYZ(i, j, 1)->outbound_flow[_00m] = 0.1;
                 }
             }

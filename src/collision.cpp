@@ -93,7 +93,8 @@ bdt* collision::f_eq(bdt flow[]){
 
     for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
 
-        retValue[q] = 1;
+        ///ORIGINAL FORMULAR:
+/*        retValue[q] = 1;
 
         for (int i=0; i<3; i++){
 
@@ -105,15 +106,30 @@ bdt* collision::f_eq(bdt flow[]){
 
                 retValue[q] -= (u[i]*u[j]*del(i, j))/(2.f*c_s*c_s);
 
-                //if ((retValue[q] != 1)&&(q == 0)) std::cout << "q: " << q << ", i:" << i << ", j:" << j << ", retValue[q]:" << retValue[q] << std::endl;
             }
         }
 
-        retValue[q] *= rho * w_lq_func(q);
+        retValue[q] *= rho * w_lq_func(q);*/
 
-        //if (retValue[q] != 0){
-        //    std::cout << retValue[q] << std::endl;
-        //}
+
+        ///WALBERA FORMULAR:
+        retValue[q] = rho;
+
+        for (int i=0; i<3; i++){
+
+            retValue[q] += (u[i]*_v[q][i]) / (c_s*c_s);
+
+            for (int j=0; j<3; j++){
+
+                retValue[q] += (u[i]*u[j]*_v[q][i]*_v[q][j])/(2.f*c_s*c_s*c_s*c_s);
+
+                retValue[q] -= (u[i]*u[j]*del(i, j))/(2.f*c_s*c_s);
+
+            }
+        }
+
+        retValue[q] *= w_lq_func(q);
+
     }
 
     //std::cout << "0:" << retValue[0] << std::endl;

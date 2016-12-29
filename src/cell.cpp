@@ -77,7 +77,7 @@ void cell::debug_info(){
     }
 }
 
-constexpr bdt omega = 2.f/3.f;
+constexpr bdt omega = 0.1;//2.f/3.f;
 
 void cell::collide(){
 

@@ -16,7 +16,7 @@ lattice_boltzmann::lattice_boltzmann(fluid_simulation *u){
 int a=0;
 
 void lattice_boltzmann::tick(){
-    //std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     if (!a) {std::cout << "apply boundary>";std::cin >> a;}
 
     #pragma omp parallel for
@@ -30,7 +30,7 @@ void lattice_boltzmann::tick(){
     fluidSim->getCellByXYZ(4,4,12)->printFlowVec();
     std::cout << fluidSim->getCellByXYZ(4,4,12)->outbound_flow[_p00] << std::endl;
 
-    //std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     if (!a) {std::cout << "stream>";std::cin >> a;}
 
     #pragma omp parallel for
@@ -44,7 +44,7 @@ void lattice_boltzmann::tick(){
     /*this->fluidSim->getCellByXYZ(2,2,5)->debug_info();
     this->fluidSim->getCellByXYZ(2,2,11)->debug_info();*/
 
-    //std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     if (!a) {std::cout << "collide>";std::cin >> a;}
 
     #pragma omp parallel for
