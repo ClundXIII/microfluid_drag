@@ -110,66 +110,54 @@ void cell::apply_boundary(){
     for (int i=0; i<DIRECTION_FLOW_SIZE; i++)
         outbound_flow[i] = 0;
 
-    switch (type){
+    if ((type == source) ||
+        (type == sink) ||
+        (type == boundary_noslip)){
 
-        case source: {
+        switch (DIRECTION_FLOW_MODEL){
 
-            bdt *tmpOutboundFlow = new bdt[DIRECTION_FLOW_SIZE];
+            case _D3Q19:
 
-            collision::buildSourceTerm(tmpOutboundFlow, inflowVec);
+                if (neighbour[_pp0]) outbound_flow[_pp0] += neighbour[_pp0]->outbound_flow[_mm0];
+                if (neighbour[_pm0]) outbound_flow[_pm0] += neighbour[_pm0]->outbound_flow[_mp0];
+                if (neighbour[_p0p]) outbound_flow[_p0p] += neighbour[_p0p]->outbound_flow[_m0m];
+                if (neighbour[_p0m]) outbound_flow[_p0m] += neighbour[_p0m]->outbound_flow[_m0p];
+                if (neighbour[_0pp]) outbound_flow[_0pp] += neighbour[_0pp]->outbound_flow[_0mm];
+                if (neighbour[_0pm]) outbound_flow[_0pm] += neighbour[_0pm]->outbound_flow[_0mp];
 
-            for (int i=0; i<DIRECTION_FLOW_SIZE; i++){
-                outbound_flow[i] = tmpOutboundFlow[i];
-            }
-          }
-            ///No break here
+                if (neighbour[_mp0]) outbound_flow[_mp0] += neighbour[_mp0]->outbound_flow[_pm0];
+                if (neighbour[_mm0]) outbound_flow[_mm0] += neighbour[_mm0]->outbound_flow[_pp0];
+                if (neighbour[_m0p]) outbound_flow[_m0p] += neighbour[_m0p]->outbound_flow[_p0m];
+                if (neighbour[_m0m]) outbound_flow[_m0m] += neighbour[_m0m]->outbound_flow[_p0p];
+                if (neighbour[_0mp]) outbound_flow[_0mp] += neighbour[_0mp]->outbound_flow[_0pm];
+                if (neighbour[_0mm]) outbound_flow[_0mm] += neighbour[_0mm]->outbound_flow[_0pp];
 
-        case sink:
-        case boundary_noslip: {
+                //no break here because we need to do the 6 dirs anyway
+            case _D3Q7:
+                if (neighbour[_p00]) outbound_flow[_p00] += neighbour[_p00]->outbound_flow[_m00];
+                if (neighbour[_m00]) outbound_flow[_m00] += neighbour[_m00]->outbound_flow[_p00];
+                if (neighbour[_0p0]) outbound_flow[_0p0] += neighbour[_0p0]->outbound_flow[_0m0];
+                if (neighbour[_0m0]) outbound_flow[_0m0] += neighbour[_0m0]->outbound_flow[_0p0];
+                if (neighbour[_00p]) outbound_flow[_00p] += neighbour[_00p]->outbound_flow[_00m];
+                if (neighbour[_00m]) outbound_flow[_00m] += neighbour[_00m]->outbound_flow[_00p];
 
-            switch (DIRECTION_FLOW_MODEL){
+                break;
 
-                case _D3Q19:
+            default:
+                std::cout << "wrong flow model!" << std::endl;
+                break;
+        }
+    }
 
-                    if (neighbour[_pp0]) outbound_flow[_pp0] += neighbour[_pp0]->outbound_flow[_mm0];
-                    if (neighbour[_pm0]) outbound_flow[_pm0] += neighbour[_pm0]->outbound_flow[_mp0];
-                    if (neighbour[_p0p]) outbound_flow[_p0p] += neighbour[_p0p]->outbound_flow[_m0m];
-                    if (neighbour[_p0m]) outbound_flow[_p0m] += neighbour[_p0m]->outbound_flow[_m0p];
-                    if (neighbour[_0pp]) outbound_flow[_0pp] += neighbour[_0pp]->outbound_flow[_0mm];
-                    if (neighbour[_0pm]) outbound_flow[_0pm] += neighbour[_0pm]->outbound_flow[_0mp];
+    if (type == source){
 
-                    if (neighbour[_mp0]) outbound_flow[_mp0] += neighbour[_mp0]->outbound_flow[_pm0];
-                    if (neighbour[_mm0]) outbound_flow[_mm0] += neighbour[_mm0]->outbound_flow[_pp0];
-                    if (neighbour[_m0p]) outbound_flow[_m0p] += neighbour[_m0p]->outbound_flow[_p0m];
-                    if (neighbour[_m0m]) outbound_flow[_m0m] += neighbour[_m0m]->outbound_flow[_p0p];
-                    if (neighbour[_0mp]) outbound_flow[_0mp] += neighbour[_0mp]->outbound_flow[_0pm];
-                    if (neighbour[_0mm]) outbound_flow[_0mm] += neighbour[_0mm]->outbound_flow[_0pp];
+        bdt *tmpOutboundFlow = new bdt[DIRECTION_FLOW_SIZE];
 
-                    //no break here because we need to do the 6 dirs anyway
-                case _D3Q7:
-                    if (neighbour[_p00]) outbound_flow[_p00] += neighbour[_p00]->outbound_flow[_m00];
-                    if (neighbour[_m00]) outbound_flow[_m00] += neighbour[_m00]->outbound_flow[_p00];
-                    if (neighbour[_0p0]) outbound_flow[_0p0] += neighbour[_0p0]->outbound_flow[_0m0];
-                    if (neighbour[_0m0]) outbound_flow[_0m0] += neighbour[_0m0]->outbound_flow[_0p0];
-                    if (neighbour[_00p]) outbound_flow[_00p] += neighbour[_00p]->outbound_flow[_00m];
-                    if (neighbour[_00m]) outbound_flow[_00m] += neighbour[_00m]->outbound_flow[_00p];
+        collision::buildSourceTerm(tmpOutboundFlow, inflowVec);
 
-                    break;
-
-                default:
-                    std::cout << "wrong flow model!" << std::endl;
-                    break;
-            }
-          }break;
-
-        case boundary_freeslip:
-            std::cout << "boundary_freeslip not implemented" << std::endl;
-            exit(32);
-          break;
-
-        default:
-            std::cout << "unknown boundary in cell.cpp::apply_boundary()" << std::endl;
-          break;
+        for (int i=0; i<DIRECTION_FLOW_SIZE; i++){
+            outbound_flow[i] += tmpOutboundFlow[i];
+        }
     }
 
     if (type == sink){

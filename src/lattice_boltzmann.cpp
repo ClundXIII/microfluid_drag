@@ -27,8 +27,8 @@ void lattice_boltzmann::tick(){
     /*this->fluidSim->getCellByXYZ(2,2,5)->debug_info();
     this->fluidSim->getCellByXYZ(2,2,11)->debug_info();*/
 
-    fluidSim->getCellByXYZ(6,6,60)->printFlowVec();
-    std::cout << fluidSim->getCellByXYZ(6,6,60)->outbound_flow[_00p] << std::endl;
+    fluidSim->getCellByXYZ(2,2,20)->printFlowVec();
+    std::cout << fluidSim->getCellByXYZ(2,2,20)->outbound_flow[_00p] << std::endl;
 
     //std::this_thread::sleep_for(std::chrono::milliseconds(10));
     if (!a) {std::cout << "stream>";std::cin >> a;}
@@ -38,8 +38,8 @@ void lattice_boltzmann::tick(){
         fluidSim->cellArray[i]->stream();
     }
 
-    fluidSim->getCellByXYZ(6,6,60)->printFlowVec();
-    std::cout << fluidSim->getCellByXYZ(6,6,60)->outbound_flow[_00p] << std::endl;
+    fluidSim->getCellByXYZ(2,2,20)->printFlowVec();
+    std::cout << fluidSim->getCellByXYZ(2,2,20)->outbound_flow[_00p] << std::endl;
 
     /*this->fluidSim->getCellByXYZ(2,2,5)->debug_info();
     this->fluidSim->getCellByXYZ(2,2,11)->debug_info();*/
@@ -52,8 +52,8 @@ void lattice_boltzmann::tick(){
         fluidSim->cellArray[i]->collide();
     }
 
-    fluidSim->getCellByXYZ(6,6,60)->printFlowVec();
-    std::cout << fluidSim->getCellByXYZ(6,6,60)->outbound_flow[_00p] << std::endl;
+    fluidSim->getCellByXYZ(2,2,20)->printFlowVec();
+    std::cout << fluidSim->getCellByXYZ(2,2,20)->outbound_flow[_00p] << std::endl;
 
     /*this->fluidSim->getCellByXYZ(2,2,5)->debug_info();
     this->fluidSim->getCellByXYZ(2,2,11)->debug_info();*/

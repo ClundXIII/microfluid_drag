@@ -38,9 +38,9 @@ int main(int argc, const char* argv[]){
             //if (argList.at(i) == "")
         }
 
-        int x_size=15,
-            y_size=15,
-            z_size=70;
+        int x_size=5,
+            y_size=5,
+            z_size=30;
 
         fluid_simulation *u = new fluid_simulation((x_size+2)*(y_size+2)*(z_size+2)+10);
 
