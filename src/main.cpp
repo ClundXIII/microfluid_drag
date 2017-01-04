@@ -38,9 +38,9 @@ int main(int argc, const char* argv[]){
             //if (argList.at(i) == "")
         }
 
-        int x_size=5,
-            y_size=5,
-            z_size=30;
+        int x_size=30,
+            y_size=30,
+            z_size=100;
 
         fluid_simulation *u = new fluid_simulation((x_size+2)*(y_size+2)*(z_size+2)+10);
 
@@ -62,14 +62,17 @@ int main(int argc, const char* argv[]){
         //u->print_debug();
 
         #if ( _USE_VEMC2 == 1 )
-        u->simulationThread->time_to_stop = -1;
+        /*u->simulationThread->time_to_stop = -1;
         u->start();
         u->unpause();
 
         out << "attach universe ..." << out_endl;
         g->attachUniverse(u);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(50000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50000));*/
+
+        u->unpause();
+        u->run(300);
 
         #else
 

@@ -170,6 +170,9 @@ void fluid_simulation::unpause(){}
 
 void fluid_simulation::run(bdt duration){
     for (int i=0; i<duration; i++){
+
+        out << "###########" << i << "############" << out_endl;
+
         effectArray[0]->tick();
 
         effectArray[0]->upValues();

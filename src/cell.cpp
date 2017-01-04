@@ -79,7 +79,7 @@ void cell::debug_info(){
     }
 }
 
-constexpr bdt omega = 0.1;//2.f/3.f;
+constexpr bdt omega = 2.f/3.f;
 
 void cell::collide(){
 
@@ -101,6 +101,10 @@ void cell::collide(){
         last_pressure += outbound_flow[q];
     }
 
+    collideRho = 0;
+    for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
+        collideRho += outbound_flow[q];
+    }
 }
 
 void cell::apply_boundary(){
@@ -153,7 +157,7 @@ void cell::apply_boundary(){
 
         bdt *tmpOutboundFlow = new bdt[DIRECTION_FLOW_SIZE];
 
-        collision::buildSourceTerm(tmpOutboundFlow, inflowVec);
+        collision::buildSourceTerm(tmpOutboundFlow, inflowVec, this);
 
         for (int i=0; i<DIRECTION_FLOW_SIZE; i++){
             outbound_flow[i] += tmpOutboundFlow[i];

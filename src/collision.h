@@ -7,7 +7,7 @@
 #include <vemc2/core/universe.h>
 #endif // _USE_VEMC2
 
-class Cell;
+class cell;
 class fluid_simulation;
 
 class collision {
@@ -15,7 +15,7 @@ class collision {
 
         collision(fluid_simulation *u);
 
-        void setCellList(Cell **allCells);
+        void setCellList(cell **allCells);
 
         static bdt* f_eq(bdt flow[]);
 
@@ -23,14 +23,14 @@ class collision {
 
         static void buildVecFromFlow(bdt *outbound_flow, bdt u[]);
 
-        static void buildSourceTerm(bdt newFlow[], bdt inflowVec[]);
+        static void buildSourceTerm(bdt newFlow[], bdt inflowVec[], cell *boundaryCell);
 
         virtual ~collision();
     protected:
     private:
 
         fluid_simulation *fluidSim;
-        Cell **allCells;
+        cell **allCells;
 };
 
 #endif // COLLISION_H

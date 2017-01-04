@@ -15,7 +15,7 @@ collision::collision(fluid_simulation *u){
     fluidSim = u;
 }
 
-void collision::setCellList(Cell **allCells){
+void collision::setCellList(cell **allCells){
     this->allCells = allCells;
 }
 
@@ -137,7 +137,7 @@ bdt* collision::f_eq(bdt flow[]){
     return retValue;
 }
 
-void collision::buildSourceTerm(bdt newFlow[], bdt inflowVec[]){
+void collision::buildSourceTerm(bdt newFlow[], bdt inflowVec[], cell *boundaryCell){
 
     const bdt c_s = 1.f/sqrt(3);
 
@@ -148,7 +148,7 @@ void collision::buildSourceTerm(bdt newFlow[], bdt inflowVec[]){
             newFlow[q] += - _v[q][s] * inflowVec[s];
         }
 
-        newFlow[q] *= - (2 * w_lq_func(q) / (c_s * c_s) );
+        newFlow[q] *= - (2 * w_lq_func(q) / (c_s * c_s) ) * ( 1 + boundaryCell->collideRho );
     }
 }
 

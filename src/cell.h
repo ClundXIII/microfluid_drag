@@ -51,6 +51,8 @@ class cell{
         static bdt initial_flow;
 
         bdt inflowVec[3] = {0, 0, 0};
+
+        bdt collideRho = 0;
     protected:
 
         bdt last_pressure=0;

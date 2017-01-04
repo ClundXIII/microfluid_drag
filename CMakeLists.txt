@@ -20,11 +20,13 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/fluid_simulation.cpp
 )
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -g3 -fsanitize=address -Wall -pedantic -Wextra -fopenmp")
+#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -g3 -fsanitize=address -Wall -pedantic -Wextra -fopenmp")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -Wall -pedantic -Wextra -fopenmp -O3")
 
 SET(GCC_COVERAGE_LINK_FLAGS    "-pthread -fopenmp")
 
 SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS} -fsanitize=address -g")
+#SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")
 
 add_executable(microfluid_drag ${HEADERS} ${SOURCES})
 target_link_libraries(microfluid_drag vcore vesper-log vgl GL GLU GLEW glut)
