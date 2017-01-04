@@ -119,7 +119,7 @@ void cell::apply_boundary(){
             collision::buildSourceTerm(tmpOutboundFlow, inflowVec);
 
             for (int i=0; i<DIRECTION_FLOW_SIZE; i++){
-                outbound_flow[i] -= tmpOutboundFlow[i];
+                outbound_flow[i] = tmpOutboundFlow[i];
             }
           }
             ///No break here
