@@ -26,17 +26,12 @@ fluid_simulation::fluid_simulation(){
     //ctor
 }
 
-void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_type typets, bool create_source_sink){
+void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, bool periodic_boundaries, cell_type boundary_typets, bool create_source_sink){
 
-    switch (typets){
-        case boundary_noslip:
-        case boundary_freeslip:
-            size_x += 2;
-            size_y += 2;
-            size_z += 2;
-          break;
-        default:
-          break;
+    if (!periodic_boundaries) {
+        size_x += 2;
+        size_y += 2;
+        size_z += 2;
     }
 
     this->size_x = size_x;
@@ -113,15 +108,15 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_t
         }
     }
 
-
-            for (int i=1; i<(size_x-1); i++){
-                for (int j=1; j<(size_y-1); j++){
-                    getCellByXYZ(i, j, 1)->outbound_flow[_00p] = 0.5;
+/*
+            for (int i=1; i<(size_y-1); i++){
+                for (int j=1; j<(size_z-1); j++){
+                    getCellByXYZ(3, i, j)->outbound_flow[_p00] = 0.1;
                     //getCellByXYZ(i, j, 1)->outbound_flow[_00m] = 0.1;
                 }
             }
-
-    switch (typets){
+*/
+    switch (boundary_typets){
         case boundary_noslip:
         case boundary_freeslip:
 
@@ -129,26 +124,26 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, cell_t
                 for (int j=0; j<(size_y); j++){
                     if (create_source_sink){
                         getCellByXYZ(i, j, 0)->type = source;
-                        getCellByXYZ(i, j, 0)->outbound_flow[_00p] = 0.1;
+                        getCellByXYZ(i, j, 0)->inflowVec[2] = 0.1;
                         getCellByXYZ(i, j, size_z-1)->type = sink;
                     }
                     else {
-                        getCellByXYZ(i, j, 0)->type = typets;
-                        getCellByXYZ(i, j, size_z-1)->type = typets;
+                        getCellByXYZ(i, j, 0)->type = boundary_typets;
+                        getCellByXYZ(i, j, size_z-1)->type = boundary_typets;
                     }
                 }
             }
             for (int i=0; i<size_x; i++){
                 for (int j=0; j<size_z; j++){
-                    getCellByXYZ(i, 0, j)->type = typets;
-                    getCellByXYZ(i, size_y-1, j)->type = typets;
+                    getCellByXYZ(i, 0, j)->type = boundary_typets;
+                    getCellByXYZ(i, size_y-1, j)->type = boundary_typets;
                 }
             }
 
             for (int i=0; i<size_y; i++){
                 for (int j=0; j<size_z; j++){
-                    getCellByXYZ(0, i, j)->type = typets;
-                    getCellByXYZ(size_x-1, i, j)->type = typets;
+                    getCellByXYZ(0, i, j)->type = boundary_typets;
+                    getCellByXYZ(size_x-1, i, j)->type = boundary_typets;
                 }
             }
           break;

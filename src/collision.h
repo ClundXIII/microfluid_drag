@@ -23,6 +23,8 @@ class collision {
 
         static void buildVecFromFlow(bdt *outbound_flow, bdt u[]);
 
+        static void buildSourceTerm(bdt newFlow[], bdt inflowVec[]);
+
         virtual ~collision();
     protected:
     private:

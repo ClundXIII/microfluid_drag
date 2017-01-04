@@ -38,9 +38,9 @@ int main(int argc, const char* argv[]){
             //if (argList.at(i) == "")
         }
 
-        int x_size=3,
-            y_size=3,
-            z_size=20;
+        int x_size=15,
+            y_size=15,
+            z_size=70;
 
         fluid_simulation *u = new fluid_simulation((x_size+2)*(y_size+2)*(z_size+2)+10);
 
@@ -53,7 +53,10 @@ int main(int argc, const char* argv[]){
         #endif
 
         out << "setting up cells ..." << out_endl;
-        u->createCellGrid(x_size, y_size, z_size, boundary_noslip, false);
+
+        cell::initial_flow = 0;
+
+        u->createCellGrid(x_size, y_size, z_size, false, boundary_noslip, true);
         u->setupEffects();
 
         //u->print_debug();

@@ -94,7 +94,7 @@ bdt* collision::f_eq(bdt flow[]){
     for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
 
         ///ORIGINAL FORMULAR:
-/*        retValue[q] = 1;
+        /*retValue[q] = 1;
 
         for (int i=0; i<3; i++){
 
@@ -135,6 +135,21 @@ bdt* collision::f_eq(bdt flow[]){
     //std::cout << "0:" << retValue[0] << std::endl;
 
     return retValue;
+}
+
+void collision::buildSourceTerm(bdt newFlow[], bdt inflowVec[]){
+
+    const bdt c_s = 1.f/sqrt(3);
+
+    for (int q=0; q<DIRECTION_FLOW_SIZE; q++){
+        newFlow[q] = 0;
+
+        for (int s=0; s<3; s++){
+            newFlow[q] += _v[q][s] * inflowVec[s];
+        }
+
+        newFlow[q] *= - (2 * w_lq_func(q) / (c_s * c_s) );
+    }
 }
 
 collision::~collision()

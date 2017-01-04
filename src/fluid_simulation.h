@@ -21,7 +21,7 @@ class fluid_simulation{
     public:
         fluid_simulation(int cellcount);
 
-        void createCellGrid(int size_x, int size_y, int size_z, cell_type typets, bool create_source_sink);
+        void createCellGrid(int size_x, int size_y, int size_z, bool periodic_boundaries, cell_type boundary_typets, bool create_source_sink);
 
         void setupEffects();
 

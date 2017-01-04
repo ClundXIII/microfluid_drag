@@ -47,6 +47,10 @@ class cell{
         cell_type type = fluid;
 
         void printFlowVec();
+
+        static bdt initial_flow;
+
+        bdt inflowVec[3] = {0, 0, 0};
     protected:
 
         bdt last_pressure=0;
