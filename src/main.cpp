@@ -178,7 +178,7 @@ int main(int argc, const char* argv[]){
                     if (!( ( ((i-(x_size-1)/2)*(i-(x_size-1)/2))+((j-(y_size-1)/2)*(j-(y_size-1)/2)) ) > ((x_size-1)*(y_size-1)/4) )){
                         int k=z_size/2;
                         cell *thisCell = u->getCellByXYZ(i, j, k);
-                        out_customF << i << " " << j << " " << k << " " << thisCell->getFlowVecX()
+                        out_customF2 << i << " " << j << " " << k << " " << thisCell->getFlowVecX()
                         << " " << thisCell->getFlowVecY() << " " << thisCell->getFlowVecZ()
                         << " " << thisCell->getFlowVecAbs() << std::endl;
                     }
