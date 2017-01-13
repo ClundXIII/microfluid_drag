@@ -42,11 +42,11 @@ int main(int argc, const char* argv[]){
             //if (argList.at(i) == "")
         }
 
-        int x_size=30,
-            y_size=30,
-            z_size=100;
+        int _x_size=30,
+            _y_size=30,
+            _z_size=100;
 
-        fluid_simulation *u = new fluid_simulation((x_size+2)*(y_size+2)*(z_size+2)+10);
+        fluid_simulation *u = new fluid_simulation((_x_size+2)*(_y_size+2)*(_z_size+2)+10);
 
 
         #if ( _USE_VEMC2 == 1 )
@@ -60,7 +60,7 @@ int main(int argc, const char* argv[]){
 
         cell::initial_flow = 0;
 
-        u->createCellGrid(x_size, y_size, z_size, false, boundary_noslip, true);
+        u->createCellGrid(_x_size, _y_size, _z_size, false, boundary_noslip, true);
         u->setupEffects();
 
         //u->print_debug();

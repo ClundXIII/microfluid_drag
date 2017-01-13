@@ -67,11 +67,11 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, bool p
         }
     }
 
-    #pragma omp parallel for
+    //#pragma omp parallel for
     for (int i=0; i<size_x; i++){
-        #pragma omp parallel for
+        //#pragma omp parallel for
         for (int j=0; j<size_y; j++){
-            #pragma omp parallel for
+            //#pragma omp parallel for
             for (int k=0; k<size_z; k++){
                 switch (DIRECTION_FLOW_MODEL){
 
