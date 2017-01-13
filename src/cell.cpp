@@ -153,7 +153,8 @@ void cell::apply_boundary(){
         }
     }
 
-    if (type == source){
+    if ((type == source) ||
+        (type == sink)){
 
         bdt *tmpOutboundFlow = new bdt[DIRECTION_FLOW_SIZE];
 
@@ -164,11 +165,11 @@ void cell::apply_boundary(){
         }
     }
 
-    if (type == sink){
+    /*if (type == sink){
         for (int i=0; i<DIRECTION_FLOW_SIZE; i++){
             outbound_flow[i] *= -1;
         }
-    }
+    }*/
 
 }
 
@@ -225,6 +226,43 @@ void cell::printFlowVec(){
     collision::buildVecFromFlow(outbound_flow, u);
 
     std::cout << u[0] << " " << u[1] << " " << u[2] << std::endl;
+}
+
+
+bdt cell::getFlowVecX(){
+
+    bdt u[3] = {0, 0, 0};
+
+    collision::buildVecFromFlow(outbound_flow, u);
+
+    return u[0];
+}
+
+bdt cell::getFlowVecY(){
+
+    bdt u[3] = {0, 0, 0};
+
+    collision::buildVecFromFlow(outbound_flow, u);
+
+    return u[1];
+}
+
+bdt cell::getFlowVecZ(){
+
+    bdt u[3] = {0, 0, 0};
+
+    collision::buildVecFromFlow(outbound_flow, u);
+
+    return u[2];
+}
+
+bdt cell::getFlowVecAbs(){
+
+    bdt u[3] = {0, 0, 0};
+
+    collision::buildVecFromFlow(outbound_flow, u);
+
+    return sqrt(u[0]*u[0]+u[1]*u[1]+u[2]*u[2]);
 }
 
 cell::~cell(){

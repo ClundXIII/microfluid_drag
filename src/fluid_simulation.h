@@ -22,6 +22,7 @@ class fluid_simulation{
         fluid_simulation(int cellcount);
 
         void createCellGrid(int size_x, int size_y, int size_z, bool periodic_boundaries, cell_type boundary_typets, bool create_source_sink);
+        void createCellGrid(int size_x, int size_y, int size_z, bool periodic_boundaries, cell_type boundary_typets, bool create_source_sink, bdt initialFlowVec[]);
 
         void setupEffects();
 
@@ -42,9 +43,11 @@ class fluid_simulation{
         int getArrayPosByXYZ(int x, int y, int z);
         cell* getCellByXYZ(int x, int y, int z);
 
-    protected:
+        using universe::out;
 
         int size_x=0, size_y=0, size_z=0;
+
+    protected:
 
         #if !( _USE_VEMC2 == 1 )
         effect **effectArray;

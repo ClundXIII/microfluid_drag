@@ -28,6 +28,12 @@ fluid_simulation::fluid_simulation(){
 
 void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, bool periodic_boundaries, cell_type boundary_typets, bool create_source_sink){
 
+    bdt initialFlowVec[] = {0, 0, 0.1};
+    createCellGrid(size_x, size_y, size_z, periodic_boundaries, boundary_typets, create_source_sink, initialFlowVec);
+}
+
+void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, bool periodic_boundaries, cell_type boundary_typets, bool create_source_sink, bdt initialFlowVec[]){
+
     if (!periodic_boundaries) {
         size_x += 2;
         size_y += 2;
@@ -124,8 +130,14 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, bool p
                 for (int j=0; j<(size_y); j++){
                     if (create_source_sink){
                         getCellByXYZ(i, j, 0)->type = source;
-                        getCellByXYZ(i, j, 0)->inflowVec[2] = 0.1;
+                        getCellByXYZ(i, j, 0)->inflowVec[0] = initialFlowVec[0];
+                        getCellByXYZ(i, j, 0)->inflowVec[1] = initialFlowVec[1];
+                        getCellByXYZ(i, j, 0)->inflowVec[2] = initialFlowVec[2];
+
                         getCellByXYZ(i, j, size_z-1)->type = sink;
+                        getCellByXYZ(i, j, size_z-1)->inflowVec[0] = initialFlowVec[0];
+                        getCellByXYZ(i, j, size_z-1)->inflowVec[1] = initialFlowVec[1];
+                        getCellByXYZ(i, j, size_z-1)->inflowVec[2] = initialFlowVec[2];
                     }
                     else {
                         getCellByXYZ(i, j, 0)->type = boundary_typets;

@@ -48,6 +48,11 @@ class cell{
 
         void printFlowVec();
 
+        bdt getFlowVecX();
+        bdt getFlowVecY();
+        bdt getFlowVecZ();
+        bdt getFlowVecAbs();
+
         static bdt initial_flow;
 
         bdt inflowVec[3] = {0, 0, 0};
