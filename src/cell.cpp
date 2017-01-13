@@ -6,6 +6,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <math.h>
 
 #if ( _USE_VEMC2 == 1 )
     #include <vemc2/graphic/draws.h>
@@ -163,13 +164,9 @@ void cell::apply_boundary(){
         for (int i=0; i<DIRECTION_FLOW_SIZE; i++){
             outbound_flow[i] += tmpOutboundFlow[i];
         }
-    }
 
-    /*if (type == sink){
-        for (int i=0; i<DIRECTION_FLOW_SIZE; i++){
-            outbound_flow[i] *= -1;
-        }
-    }*/
+        delete[] tmpOutboundFlow;
+    }
 
 }
 
