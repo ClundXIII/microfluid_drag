@@ -21,7 +21,7 @@ fluid_simulation::fluid_simulation(int cellcount) :
     settings.sim.dt = 1;
     unpause();
 #else
-fluid_simulation::fluid_simulation(){
+fluid_simulation::fluid_simulation(int cellcount){
 #endif
     //ctor
 }
@@ -182,8 +182,6 @@ void fluid_simulation::unpause(){}
 
 void fluid_simulation::run(bdt duration){
     for (int i=0; i<duration; i++){
-
-        out << "###########" << i << "############" << out_endl;
 
         effectArray[0]->tick();
 

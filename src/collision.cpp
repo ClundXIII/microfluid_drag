@@ -4,7 +4,7 @@
 #include "fluid_simulation.h"
 
 #include <iostream>
-
+#include <math.h>
 
 ///Weight Factors
 #define _W_0 ((bdt)1/(bdt)3)

@@ -28,7 +28,11 @@ int i=0;
 void lattice_boltzmann::tick(){
 
 
-    out << "###########" << i << "############" << out_endl;
+    if (! (i%100)){
+        out << "###########" << i << "############" << out_endl;
+        fluidSim->getCellByXYZ(fluidSim->size_x/2,fluidSim->size_y/2,fluidSim->size_z/2)->printFlowVec();
+        std::cout << fluidSim->getCellByXYZ(fluidSim->size_x/2,fluidSim->size_y/2,fluidSim->size_z/2)->outbound_flow[_00p] << std::endl;
+    }
     i++;
 
     #pragma omp parallel for
@@ -45,9 +49,6 @@ void lattice_boltzmann::tick(){
     for (int i=0; i<fluidSim->cellArraySize; i++){
         fluidSim->cellArray[i]->collide();
     }
-
-    fluidSim->getCellByXYZ(fluidSim->size_x/2,fluidSim->size_y/2,fluidSim->size_z/2)->printFlowVec();
-    std::cout << fluidSim->getCellByXYZ(fluidSim->size_x/2,fluidSim->size_y/2,fluidSim->size_z/2)->outbound_flow[_00p] << std::endl;
 }
 
 void lattice_boltzmann::upValues(){

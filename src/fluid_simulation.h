@@ -43,7 +43,9 @@ class fluid_simulation{
         int getArrayPosByXYZ(int x, int y, int z);
         cell* getCellByXYZ(int x, int y, int z);
 
+        #if ( _USE_VEMC2 == 1 )
         using universe::out;
+        #endif
 
         int size_x=0, size_y=0, size_z=0;
 

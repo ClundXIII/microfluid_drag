@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <sstream>
 
 #include "define.h"
 #include "fluid_simulation.h"
@@ -18,7 +19,7 @@
     #define out_custom v_out_custom
     #define out_custom_endl Vesper::LoggingTypes::eom
 #else
-    #define out_custom std::cout_custom
+    #define out_custom std::cout
     #define out_custom_endl std::endl;
 #endif // _USE_VEMC2
 
@@ -102,9 +103,13 @@ int main(int argc, const char* argv[]){
         }
         if (argList.at(1) == "--s1"){
 
-            int x_size=30,
-                y_size=30,
-                z_size=100;
+            std::string::size_type sz;   // alias of size_t
+
+            int x_size = std::stoi(argList.at(2), &sz),
+                y_size = std::stoi(argList.at(3), &sz),
+                z_size = std::stoi(argList.at(4), &sz);
+
+            bdt init_Flow =  std::stof(argList.at(5), &sz);
 
             fluid_simulation *u = new fluid_simulation((x_size+2)*(y_size+2)*(z_size+2)+10);
 
@@ -112,7 +117,9 @@ int main(int argc, const char* argv[]){
 
             cell::initial_flow = 0;
 
-            u->createCellGrid(x_size, y_size, z_size, false, boundary_noslip, true);
+            bdt init_Flow_Vec[] = {0, 0, init_Flow};
+
+            u->createCellGrid(x_size, y_size, z_size, false, boundary_noslip, true, init_Flow_Vec);
             u->setupEffects();
 
             out_custom << "max sum squared: " << (x_size*y_size/4) << out_custom_endl;
@@ -127,21 +134,21 @@ int main(int argc, const char* argv[]){
                 }
             }
 
-        /*vemc2::graphic::graphicgl *g = new vemc2::graphic::graphicgl(argc, (char**) argv);
-
-        g->attachUniverse(u);*/
-
             #if ( _USE_VEMC2 == 1 )
             u->unpause();
-            u->run(2000);
+            u->run(5000);
 
             #else
 
-            u->run(300);
+            u->run(2000);
 
             #endif
 
-            std::fstream out_customF("simulation1.dat", std::ios::out);
+            std::stringstream ss;
+
+            ss << "simulation1_" << x_size << "_" << y_size << "_" << z_size << "_" << init_Flow << ".dat";
+
+            std::fstream out_customF(ss.str(), std::ios::out | std::ios::trunc);
             out_customF << "#X Y Z ValX ValY ValZ Abs" << std::endl;
 
             for (int i=0; i<x_size; i++){
@@ -157,6 +164,28 @@ int main(int argc, const char* argv[]){
             }
 
             out_customF.close();
+
+
+            std::stringstream ss2;
+
+            ss2 << "simulation1_" << x_size << "_" << y_size << "_" << z_size << "_" << init_Flow << "_onlypipe.dat";
+
+            std::fstream out_customF2(ss2.str(), std::ios::out | std::ios::trunc);
+            out_customF2 << "#X Y Z ValX ValY ValZ Abs" << std::endl;
+
+            for (int i=0; i<x_size; i++){
+                for (int j=0; j<y_size; j++){
+                    if (!( ( ((i-(x_size-1)/2)*(i-(x_size-1)/2))+((j-(y_size-1)/2)*(j-(y_size-1)/2)) ) > ((x_size-1)*(y_size-1)/4) )){
+                        int k=z_size/2;
+                        cell *thisCell = u->getCellByXYZ(i, j, k);
+                        out_customF << i << " " << j << " " << k << " " << thisCell->getFlowVecX()
+                        << " " << thisCell->getFlowVecY() << " " << thisCell->getFlowVecZ()
+                        << " " << thisCell->getFlowVecAbs() << std::endl;
+                    }
+                }
+            }
+
+            out_customF2.close();
 
             delete(u);
 
