@@ -21,8 +21,6 @@ lattice_boltzmann::lattice_boltzmann(fluid_simulation *u){
     fluidSim = u;
 }
 
-int a=0;
-
 int i=0;
 
 void lattice_boltzmann::tick(){

@@ -21,11 +21,15 @@ class collision {
 
         //static std::vector<bdt> getFlowVector(bdt flow[]);
 
+        static bdt w_lq_func(int q);
+
         static void buildVecFromFlow(bdt *outbound_flow, bdt u[]);
 
         static void buildSourceTerm(bdt newFlow[], bdt inflowVec[], cell *boundaryCell);
 
         virtual ~collision();
+
+        static bdt _v[DIRECTION_FLOW_SIZE][3];
     protected:
     private:
 

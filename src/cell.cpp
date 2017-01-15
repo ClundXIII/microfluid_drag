@@ -69,6 +69,10 @@ int cell::add_neighbour(direction where, cell *neighbour){
     return 0;
 }
 
+cell* cell::get_neighbour(direction where){
+    return neighbour[where];
+}
+
 void cell::debug_info(){
     std::cout << pos_x << " " << pos_y << " " << pos_z << std::endl;
     for (int i = 0; i<DIRECTION_FLOW_SIZE; i++){
@@ -260,6 +264,32 @@ bdt cell::getFlowVecAbs(){
     collision::buildVecFromFlow(outbound_flow, u);
 
     return sqrt(u[0]*u[0]+u[1]*u[1]+u[2]*u[2]);
+}
+
+void cell::buildDragForce(bdt toBuild[]){
+
+    if (!solid_object)
+        return;
+
+    const bdt c_s = 1.f/sqrt(3);
+
+    for (int r=0; r<3; r++){
+        for (int q=0; q<DIRECTION_FLOW_SIZE ; q++){
+
+            if (!neighbour[q])
+                continue;
+
+            bdt tmpForce = 0;
+
+            tmpForce += neighbour[q]->outbound_flow[q];
+            tmpForce -= (collision::w_lq_func(q) / (c_s*c_s)) *
+                        (1 + neighbour[q]->collideRho)*collision::_v[q][r]*this->inflowVec[r];
+            tmpForce *= 2 * collision::_v[q][r];
+
+            toBuild[r] += tmpForce;
+        }
+    }
+
 }
 
 cell::~cell(){

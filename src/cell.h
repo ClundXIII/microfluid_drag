@@ -29,6 +29,7 @@ class cell{
         virtual void draw();
 
         int add_neighbour(direction where, cell *neighbour);
+        cell* get_neighbour(direction where);
 
         unsigned pos_x, pos_y, pos_z;
 
@@ -58,6 +59,10 @@ class cell{
         bdt inflowVec[3] = {0, 0, 0};
 
         bdt collideRho = 0;
+
+        bool solid_object = false;
+
+        void buildDragForce(bdt toBuild[]);
     protected:
 
         bdt last_pressure=0;

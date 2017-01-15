@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <math.h>
 
 #include "define.h"
 #include "fluid_simulation.h"
@@ -193,7 +194,110 @@ int main(int argc, const char* argv[]){
             return 0;
         }
         if (argList.at(1) == "--s2"){
-            //run tests
+
+            std::string::size_type sz;   // alias of size_t
+
+            int x_size = std::stoi(argList.at(2), &sz),
+                y_size = std::stoi(argList.at(3), &sz),
+                z_size = std::stoi(argList.at(4), &sz);
+
+            bdt init_Flow =  std::stof(argList.at(5), &sz);
+
+            bdt barrier_diameter =  std::stof(argList.at(6), &sz);
+
+            fluid_simulation *u = new fluid_simulation((x_size+2)*(y_size+2)*(z_size+2)+10);
+
+            out_custom << "setting up cells ..." << out_custom_endl;
+
+            cell::initial_flow = 0;
+
+            bdt init_Flow_Vec[] = {0, 0, init_Flow};
+
+            u->createCellGrid(x_size, y_size, z_size, false, boundary_noslip, false, nullptr);
+            u->setupEffects();
+
+            out_custom << "barrier diameter: " << barrier_diameter << out_custom_endl;
+            out_custom << "barrier diameter cubed / 8: " << ((barrier_diameter-1)*(barrier_diameter-1)*(barrier_diameter-1)/8) << out_custom_endl;
+
+            for (int i=0; i<x_size; i++){
+                for (int j=0; j<y_size; j++){
+                    for (int k=1; k<(z_size-1); k++){
+                        if ( ( ((i-(x_size-1)/2)*(i-(x_size-1)/2))+((j-(y_size-1)/2)*(j-(y_size-1)/2))+((k-(z_size-1)/2)*(k-(z_size-1)/2)) ) < ((barrier_diameter-1)*(barrier_diameter-1)*(barrier_diameter-1)/8) ){
+                            u->getCellByXYZ(i, j, k)->type = source;
+                            u->getCellByXYZ(i, j, k)->inflowVec[0] = init_Flow_Vec[0];
+                            u->getCellByXYZ(i, j, k)->inflowVec[1] = init_Flow_Vec[1];
+                            u->getCellByXYZ(i, j, k)->inflowVec[2] = init_Flow_Vec[2];
+                            u->getCellByXYZ(i, j, k)->solid_object = true;
+                        }
+                    }
+                }
+            }
+
+
+            for (int i=0; i<x_size; i++){
+                for (int j=0; j<y_size; j++){
+                    for (int k=1; k<(z_size-1); k++){
+                        if (u->getCellByXYZ(i, j, k)->solid_object){
+                            for (int q=1; q<DIRECTION_FLOW_SIZE; q++){
+                                if (u->getCellByXYZ(i, j, k)->get_neighbour((direction)q) && u->getCellByXYZ(i, j, k)->get_neighbour((direction)q)->solid_object){
+                                    u->getCellByXYZ(i, j, k)->add_neighbour((direction)q, 0);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            #if ( _USE_VEMC2 == 1 )
+            u->unpause();
+            u->run(2000);
+
+            #else
+
+            u->run(2000);
+
+            #endif
+
+            std::stringstream ss;
+
+            ss << "simulation2_" << x_size << "_" << y_size << "_" << z_size << "_" << init_Flow << "_" << barrier_diameter << ".dat";
+
+            std::fstream out_customF(ss.str(), std::ios::out | std::ios::trunc);
+            out_customF << "#X Y Z ValX ValY ValZ Abs ForceX ForceY ForceZ ForceAbs" << std::endl;
+
+            bdt drag_force[] = {0, 0, 0};
+
+            //for (int i=0; i<x_size; i++){
+                for (int j=0; j<y_size; j++){
+                    for (int k=0; k<z_size; k++){
+                        int i=x_size/2;
+                        cell *thisCell = u->getCellByXYZ(i, j, k);
+
+                        bdt tmpDragForce[] = {0, 0, 0};
+                        thisCell->buildDragForce(tmpDragForce);
+
+                        out_customF << i << " " << j << " " << k << " " << thisCell->getFlowVecX()
+                            << " " << thisCell->getFlowVecY() << " " << thisCell->getFlowVecZ()
+                            << " " << thisCell->getFlowVecAbs() << " " << tmpDragForce[0]
+                            << " " << tmpDragForce[1] << " " << tmpDragForce[2]
+                            << " " << sqrt(tmpDragForce[0]*tmpDragForce[0]+tmpDragForce[1]*tmpDragForce[1]+tmpDragForce[2]*tmpDragForce[2])
+                            << std::endl;
+
+                        if (thisCell->solid_object){
+                            drag_force[0] += tmpDragForce[0];
+                            drag_force[1] += tmpDragForce[1];
+                            drag_force[2] += tmpDragForce[2];
+                        }
+                    }
+                }
+            //}
+
+            out_customF.close();
+
+            delete(u);
+
+            out_custom << "exit(0);" << out_custom_endl;
+            return 0;
         }
     }
 }

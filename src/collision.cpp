@@ -19,7 +19,7 @@ void collision::setCellList(cell **allCells){
     this->allCells = allCells;
 }
 
-bdt _v[DIRECTION_FLOW_SIZE][3] = {
+bdt collision::_v[DIRECTION_FLOW_SIZE][3] = {
     { 0,  0,  0},
     { 1,  0,  0},
     {-1,  0,  0},
@@ -49,7 +49,7 @@ const bdt sqrt_2 = sqrt(2);
 void buildVecFromDirection(bdt u, int d, bdt *vec){
 
     for (int i=0; i<3; i++){
-        vec[i] += _v[d][i] * u;
+        vec[i] += collision::_v[d][i] * u;
     }
 
 }
@@ -58,7 +58,7 @@ int del(int i, int j){
     return (i==j) ? 1:0;
 }
 
-bdt w_lq_func(int q){
+bdt collision::w_lq_func(int q){
     if (q==_000) return 1.f/3.f;
     if ((q>=1)          && (q<_size_D3Q7 )) return 1.f/18.f;
     if ((q>=_size_D3Q7) && (q<_size_D3Q19)) return 1.f/36.f;
