@@ -217,12 +217,13 @@ int main(int argc, const char* argv[]){
             u->setupEffects();
 
             out_custom << "barrier diameter: " << barrier_diameter << out_custom_endl;
-            out_custom << "barrier diameter cubed / 8: " << ((barrier_diameter-1)*(barrier_diameter-1)*(barrier_diameter-1)/8) << out_custom_endl;
+            out_custom << "barrier diameter cubed / 8: " << ((barrier_diameter-1)*(barrier_diameter-1)/8) << out_custom_endl;
 
             for (int i=0; i<x_size; i++){
                 for (int j=0; j<y_size; j++){
                     for (int k=1; k<(z_size-1); k++){
-                        if ( ( ((i-(x_size-1)/2)*(i-(x_size-1)/2))+((j-(y_size-1)/2)*(j-(y_size-1)/2))+((k-(z_size-1)/2)*(k-(z_size-1)/2)) ) < ((barrier_diameter-1)*(barrier_diameter-1)*(barrier_diameter-1)/8) ){
+                        if ( ( ((i-(x_size-1)/2)*(i-(x_size-1)/2))+((j-(y_size-1)/2)*(j-(y_size-1)/2))+((k-(z_size-1)/2)*(k-(z_size-1)/2)) ) <
+                            ((barrier_diameter-1)*(barrier_diameter-1)/4) ){
                             u->getCellByXYZ(i, j, k)->type = source;
                             u->getCellByXYZ(i, j, k)->inflowVec[0] = init_Flow_Vec[0];
                             u->getCellByXYZ(i, j, k)->inflowVec[1] = init_Flow_Vec[1];
