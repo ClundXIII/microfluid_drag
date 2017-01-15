@@ -292,6 +292,8 @@ int main(int argc, const char* argv[]){
                 }
             //}
 
+            out_customF << "#total Force: " << drag_force[0] << " " << drag_force[1] << " " << drag_force[2] << std::endl;
+
             out_customF.close();
 
             delete(u);
