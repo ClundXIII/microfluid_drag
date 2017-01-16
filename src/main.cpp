@@ -234,16 +234,6 @@ int main(int argc, const char* argv[]){
                 }
             }
 
-            #if ( _USE_VEMC2 == 1 )
-            u->unpause();
-            u->run(2000);
-
-            #else
-
-            u->run(2000);
-
-            #endif
-
             for (int i=0; i<x_size; i++){
                 for (int j=0; j<y_size; j++){
                     for (int k=1; k<(z_size-1); k++){
@@ -257,6 +247,16 @@ int main(int argc, const char* argv[]){
                     }
                 }
             }
+
+            #if ( _USE_VEMC2 == 1 )
+            u->unpause();
+            u->run(2000);
+
+            #else
+
+            u->run(2000);
+
+            #endif
 
             std::stringstream ss;
 
