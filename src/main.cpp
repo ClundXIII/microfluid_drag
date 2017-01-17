@@ -211,7 +211,7 @@ int main(int argc, const char* argv[]){
 
             cell::initial_flow = 0;
 
-            bdt init_Flow_Vec[] = {0, 0, init_Flow};
+            bdt init_Flow_Vec[] = {0, 0, -init_Flow};
 
             u->createCellGrid(x_size, y_size, z_size, false, boundary_noslip, false, nullptr);
             u->setupEffects();
