@@ -166,12 +166,12 @@ void fluid_simulation::createCellGrid(int size_x, int size_y, int size_z, bool p
     out << "crated " << cell_pos << " Cells!" << out_endl;
 }
 
-void fluid_simulation::setupEffects(){
+void fluid_simulation::setupEffects(bdt init_Flow, bdt barrier_diameter){
 
     effectArray = new effect*[2];
     effectCount = 1;
 
-    effectArray[0] = new lattice_boltzmann(this);
+    effectArray[0] = new lattice_boltzmann(this, init_Flow, barrier_diameter);
     effectArray[1] = 0;
 
 }

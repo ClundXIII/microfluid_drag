@@ -8,6 +8,7 @@
 
 #include "define.h"
 #include "fluid_simulation.h"
+#include "lattice_boltzmann.h"
 
 #include "cell.h"
 
@@ -62,7 +63,7 @@ int main(int argc, const char* argv[]){
         cell::initial_flow = 0;
 
         u->createCellGrid(_x_size, _y_size, _z_size, false, boundary_noslip, true);
-        u->setupEffects();
+        u->setupEffects(0, 0);
 
         //u->print_debug();
 
@@ -121,7 +122,7 @@ int main(int argc, const char* argv[]){
             bdt init_Flow_Vec[] = {0, 0, init_Flow};
 
             u->createCellGrid(x_size, y_size, z_size, false, boundary_noslip, true, init_Flow_Vec);
-            u->setupEffects();
+            u->setupEffects(0, 0);
 
             out_custom << "max sum squared: " << (x_size*y_size/4) << out_custom_endl;
 
@@ -214,7 +215,7 @@ int main(int argc, const char* argv[]){
             bdt init_Flow_Vec[] = {0, 0, -init_Flow};
 
             u->createCellGrid(x_size, y_size, z_size, false, boundary_noslip, false, nullptr);
-            u->setupEffects();
+            u->setupEffects(init_Flow, barrier_diameter);
 
             out_custom << "barrier diameter: " << barrier_diameter << out_custom_endl;
             out_custom << "barrier diameter squared / 4: " << ((barrier_diameter)*(barrier_diameter)/4) << out_custom_endl;
@@ -275,8 +276,6 @@ int main(int argc, const char* argv[]){
             std::fstream out_customF(ss.str(), std::ios::out | std::ios::trunc);
             out_customF << "#X Y Z ValX ValY ValZ Abs ForceX ForceY ForceZ ForceAbs" << std::endl;
 
-            bdt drag_force[] = {0, 0, 0};
-
             //for (int i=0; i<x_size; i++){
                 for (int j=0; j<y_size; j++){
                     for (int k=0; k<z_size; k++){
@@ -293,14 +292,13 @@ int main(int argc, const char* argv[]){
                             << " " << sqrt(tmpDragForce[0]*tmpDragForce[0]+tmpDragForce[1]*tmpDragForce[1]+tmpDragForce[2]*tmpDragForce[2])
                             << std::endl;
 
-                        if (thisCell->solid_object){
-                            drag_force[0] += tmpDragForce[0];
-                            drag_force[1] += tmpDragForce[1];
-                            drag_force[2] += tmpDragForce[2];
-                        }
                     }
                 }
             //}
+
+            bdt drag_force[3];
+
+            ((lattice_boltzmann*)u->effectArray[0])->getTotalF(drag_force);
 
             out_customF << "#total Force: " << drag_force[0] << " " << drag_force[1] << " " << drag_force[2] << std::endl;
 

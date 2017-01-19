@@ -24,7 +24,7 @@ class fluid_simulation{
         void createCellGrid(int size_x, int size_y, int size_z, bool periodic_boundaries, cell_type boundary_typets, bool create_source_sink);
         void createCellGrid(int size_x, int size_y, int size_z, bool periodic_boundaries, cell_type boundary_typets, bool create_source_sink, bdt initialFlowVec[]);
 
-        void setupEffects();
+        void setupEffects(bdt init_Flow, bdt barrier_diameter);
 
         #if !( _USE_VEMC2 == 1 )
         void unpause();
@@ -49,12 +49,12 @@ class fluid_simulation{
 
         int size_x=0, size_y=0, size_z=0;
 
-    protected:
-
         #if !( _USE_VEMC2 == 1 )
         effect **effectArray;
         int      effectCount;
         #endif
+
+    protected:
 
         bool use_loop_boundary=false;
 
