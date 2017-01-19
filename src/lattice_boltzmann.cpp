@@ -26,7 +26,7 @@ lattice_boltzmann::lattice_boltzmann(fluid_simulation *u, bdt init_Flow, bdt bar
 
     std::stringstream ss;
 
-    ss << "simulation2_" << u->size_x << "_" << u->size_y << "_" << u->size_z << "_" << init_Flow << "_" << barrier_diameter << "_force.dat";
+    ss << "simulation2_" << (u->size_x-2) << "_" << (u->size_y-2) << "_" << (u->size_z-2) << "_" << init_Flow << "_" << barrier_diameter << "_force.dat";
 
     out_customF = new std::fstream(ss.str(), std::ios::out | std::ios::trunc);
     *out_customF << "#Time ForceX ForceY ForceZ ForceAbs" << std::endl;
