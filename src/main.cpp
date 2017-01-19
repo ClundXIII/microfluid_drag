@@ -222,8 +222,8 @@ int main(int argc, const char* argv[]){
             for (int i=0; i<x_size; i++){
                 for (int j=0; j<y_size; j++){
                     for (int k=1; k<(z_size-1); k++){
-                        if ( ( ((i-(x_size-1)/2.0)*(i-(x_size-1)/2.0))+((j-(y_size-1)/2.0)*(j-(y_size-1)/2.0))+((k-(z_size-1)/2.0)*(k-(z_size-1)/2.0)) ) <=
-                            (barrier_diameter*barrier_diameter/4.0) ){
+                        if ( ( ((i-(x_size-1)/2.0)*(i-(x_size-1)/2.0))+((j-(y_size-1)/2.0)*(j-(y_size-1)/2.0))+((k-(z_size-1)/2.0)*(k-(z_size-1)/2.0)) ) <
+                            ((barrier_diameter+1)*(barrier_diameter+1)/4.0) ){
                             u->getCellByXYZ(i, j, k)->type = source;
                             u->getCellByXYZ(i, j, k)->inflowVec[0] = init_Flow_Vec[0];
                             u->getCellByXYZ(i, j, k)->inflowVec[1] = init_Flow_Vec[1];

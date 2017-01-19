@@ -149,7 +149,7 @@ void collision::buildSourceTerm(bdt newFlow[], bdt inflowVec[], cell *boundaryCe
             newFlow[q] += ((-1) * _v[q][s]) * inflowVec[s];
         }
 
-        newFlow[q] *= - (2 * w_lq_func(q) / (c_s * c_s) ) * ( 1 + boundaryCell->collideRho );
+        newFlow[q] *= - (2 * w_lq_func(q) / (c_s * c_s) ) * ( 1/* + boundaryCell->collideRho */);
     }
 }
 
