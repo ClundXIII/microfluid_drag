@@ -151,7 +151,7 @@ void collision::buildSourceTerm(bdt newFlow[], bdt inflowVec[], cell *boundaryCe
 
         //if (boundaryCell->get_neighbour((direction)q) && (boundaryCell->get_neighbour((direction)q)->collideRho != 0)) std::cout << boundaryCell->get_neighbour((direction)q)->collideRho << std::endl;
         if (boundaryCell->get_neighbour((direction)q))
-            newFlow[q] *= - (2 * w_lq_func(q) / (c_s * c_s) ) * ( 1 + boundaryCell->get_neighbour((direction)q)->collideRho);
+            newFlow[q] *= - (2 * w_lq_func(q) / (c_s * c_s) ) * ( 1/* + boundaryCell->get_neighbour((direction)q)->collideRho*/);
         else
             newFlow[q] *= - (2 * w_lq_func(q) / (c_s * c_s) ) * ( 1 );
     }

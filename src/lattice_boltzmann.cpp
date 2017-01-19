@@ -36,6 +36,16 @@ int i=0;
 
 void lattice_boltzmann::tick(){
 
+    #pragma omp parallel for
+    for (int i=0; i<fluidSim->cellArraySize; i++){
+        fluidSim->cellArray[i]->apply_boundary();
+    }
+
+    #pragma omp parallel for
+    for (int i=0; i<fluidSim->cellArraySize; i++){
+        fluidSim->cellArray[i]->stream();
+    }
+
 
     if (! (i%100)){
         custom_out << "###########" << i << "############" << out_endl;
@@ -47,16 +57,6 @@ void lattice_boltzmann::tick(){
         sqrt(tmpForce[0]*tmpForce[0]+tmpForce[1]*tmpForce[1]+tmpForce[2]*tmpForce[2]) << std::endl;
     }
     i++;
-
-    #pragma omp parallel for
-    for (int i=0; i<fluidSim->cellArraySize; i++){
-        fluidSim->cellArray[i]->apply_boundary();
-    }
-
-    #pragma omp parallel for
-    for (int i=0; i<fluidSim->cellArraySize; i++){
-        fluidSim->cellArray[i]->stream();
-    }
 
     #pragma omp parallel for
     for (int i=0; i<fluidSim->cellArraySize; i++){

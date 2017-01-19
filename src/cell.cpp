@@ -271,8 +271,6 @@ void cell::buildDragForce(bdt toBuild[]){
     if (!solid_object)
         return;
 
-    const bdt c_s = 1.f/sqrt(3);
-
     for (int r=0; r<3; r++){
         for (int q=0; q<DIRECTION_FLOW_SIZE ; q++){
 
@@ -287,8 +285,8 @@ void cell::buildDragForce(bdt toBuild[]){
             for (int i=0; i<3; i++){
                 tmpA += collision::_v[q][i]*this->inflowVec[i];
             }
-            tmpForce -= (collision::w_lq_func(q) / (c_s*c_s)) *
-                        (1 + neighbour[q]->collideRho)*tmpA;
+            tmpForce -= (collision::w_lq_func(q) *3.0) *
+                        (1/* + neighbour[q]->collideRho*/)*tmpA;
             tmpForce *= 2 * collision::_v[q][r];
 
             toBuild[r] += tmpForce;
