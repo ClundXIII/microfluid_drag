@@ -281,7 +281,7 @@ void cell::buildDragForce(bdt toBuild[]){
 
             bdt tmpForce = 0;
 
-            tmpForce += neighbour[q]->outbound_flow[q];
+            tmpForce += neighbour[q]->inbound_flow[q];
 
             bdt tmpA = 0;
             for (int i=0; i<3; i++){
@@ -289,7 +289,7 @@ void cell::buildDragForce(bdt toBuild[]){
             }
             ///-1 weil antiq
             tmpForce -= (-1)*(collision::w_lq_func(q) / (c_s*c_s)) *
-                        (1/* + neighbour[q]->collideRho*/)*tmpA;
+                        (1 + neighbour[q]->collideRho)*tmpA;
             tmpForce *= 2 * collision::_v[q][r];
 
             toBuild[r] += tmpForce;
