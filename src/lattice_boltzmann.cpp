@@ -41,7 +41,7 @@ void lattice_boltzmann::tick(){
         custom_out << "###########" << i << "############" << out_endl;
         fluidSim->getCellByXYZ(fluidSim->size_x/2,fluidSim->size_y/2,fluidSim->size_z/2)->printFlowVec();
         std::cout << fluidSim->getCellByXYZ(fluidSim->size_x/2,fluidSim->size_y/2,fluidSim->size_z/2)->outbound_flow[_00p] << std::endl;
-        bdt tmpForce[3];
+        bdt tmpForce[3] = {0, 0, 0};
         getTotalF(tmpForce);
         *out_customF << i << " " << tmpForce[0] << " " << tmpForce[1] << " " << tmpForce[2] << " " << " " <<
         sqrt(tmpForce[0]*tmpForce[0]+tmpForce[1]*tmpForce[1]+tmpForce[2]*tmpForce[2]) << std::endl;
