@@ -258,6 +258,16 @@ int main(int argc, const char* argv[]){
 
             #endif
 
+            #pragma omp parallel for
+            for (int i=0; i<fluidSim->cellArraySize; i++){
+                u->cellArray[i]->apply_boundary();
+            }
+
+            #pragma omp parallel for
+            for (int i=0; i<fluidSim->cellArraySize; i++){
+                u->cellArray[i]->stream();
+            }
+
             std::stringstream ss;
 
             ss << "simulation2_" << x_size << "_" << y_size << "_" << z_size << "_" << init_Flow << "_" << barrier_diameter << ".dat";
