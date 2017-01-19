@@ -259,12 +259,12 @@ int main(int argc, const char* argv[]){
             #endif
 
             #pragma omp parallel for
-            for (int i=0; i<fluidSim->cellArraySize; i++){
+            for (int i=0; i<u->cellArraySize; i++){
                 u->cellArray[i]->apply_boundary();
             }
 
             #pragma omp parallel for
-            for (int i=0; i<fluidSim->cellArraySize; i++){
+            for (int i=0; i<u->cellArraySize; i++){
                 u->cellArray[i]->stream();
             }
 
