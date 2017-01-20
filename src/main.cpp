@@ -282,17 +282,31 @@ int main(int argc, const char* argv[]){
                         int i=x_size/2;
                         cell *thisCell = u->getCellByXYZ(i, j, k);
 
-                        if (thisCell->solid_object) continue;
+                        if (thisCell->solid_object){
 
-                        bdt tmpDragForce[] = {0, 0, 0};
-                        thisCell->buildDragForce(tmpDragForce);
+                            bdt tmpDragForce[] = {0, 0, 0};
+                            thisCell->buildDragForce(tmpDragForce);
 
-                        out_customF << i << " " << j << " " << k << " " << thisCell->getFlowVecX()
-                            << " " << thisCell->getFlowVecY() << " " << thisCell->getFlowVecZ()
-                            << " " << thisCell->getFlowVecAbs() << " " << tmpDragForce[0]
-                            << " " << tmpDragForce[1] << " " << tmpDragForce[2]
-                            << " " << sqrt(tmpDragForce[0]*tmpDragForce[0]+tmpDragForce[1]*tmpDragForce[1]+tmpDragForce[2]*tmpDragForce[2])
-                            << std::endl;
+                            out_customF << i << " " << j << " " << k << " " << 0
+                                << " " << 0 << " " << 0
+                                << " " << 0 << " " << tmpDragForce[0]
+                                << " " << tmpDragForce[1] << " " << tmpDragForce[2]
+                                << " " << sqrt(tmpDragForce[0]*tmpDragForce[0]+tmpDragForce[1]*tmpDragForce[1]+tmpDragForce[2]*tmpDragForce[2])
+                                << std::endl;
+
+                        } else {
+
+                            bdt tmpDragForce[] = {0, 0, 0};
+                            thisCell->buildDragForce(tmpDragForce);
+
+                            out_customF << i << " " << j << " " << k << " " << thisCell->getFlowVecX()
+                                << " " << thisCell->getFlowVecY() << " " << thisCell->getFlowVecZ()
+                                << " " << thisCell->getFlowVecAbs() << " " << tmpDragForce[0]
+                                << " " << tmpDragForce[1] << " " << tmpDragForce[2]
+                                << " " << sqrt(tmpDragForce[0]*tmpDragForce[0]+tmpDragForce[1]*tmpDragForce[1]+tmpDragForce[2]*tmpDragForce[2])
+                                << std::endl;
+
+                        }
 
                     }
                 }
