@@ -282,6 +282,8 @@ int main(int argc, const char* argv[]){
                         int i=x_size/2;
                         cell *thisCell = u->getCellByXYZ(i, j, k);
 
+                        if (thisCell->solid_object) continue;
+
                         bdt tmpDragForce[] = {0, 0, 0};
                         thisCell->buildDragForce(tmpDragForce);
 
