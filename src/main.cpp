@@ -386,7 +386,7 @@ int main(int argc, const char* argv[]){
                 }
             }
 
-            omp_set_dynamic(0);
+            //omp_set_dynamic(0);
 
             std::stringstream ss;
 
@@ -395,7 +395,7 @@ int main(int argc, const char* argv[]){
             std::fstream *out_customF = new std::fstream(ss.str(), std::ios::out | std::ios::trunc);
             *out_customF << "#tCount time" << std::endl;
 
-            for (int tCount=1; tCount<40; tCount++){
+            for (int tCount=1; tCount<80; tCount++){
 
                 omp_set_num_threads(tCount);
 
