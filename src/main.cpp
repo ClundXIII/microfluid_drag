@@ -402,11 +402,11 @@ int main(int argc, const char* argv[]){
                 high_resolution_clock::time_point t1 = high_resolution_clock::now();
                 #if ( _USE_VEMC2 == 1 )
                 u->unpause();
-                u->run(100);
+                u->run(400);
 
                 #else
 
-                u->run(100);
+                u->run(400);
 
                 #endif
 
