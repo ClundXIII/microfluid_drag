@@ -5,6 +5,8 @@
 #include <sstream>
 #include <fstream>
 
+#include <omp.h>
+
 #include <iostream>
 
 #include <math.h>
